@@ -1,0 +1,2251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto6ème : Révision des automatismes</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0f1117; --surface:#1a1d27; --surface2:#22263a; --border:#2e3350;
+  --accent:#4f8cff; --accent2:#7c5cfc; --green:#3dd68c; --red:#ff5c5c;
+  --orange:#ffb347; --text:#e8eaf6; --muted:#8892b0; --card:#1e2235;
+  --radius:14px;
+  --choice-hover:#1a2540;
+  --svg-stroke:#ffffff; --svg-point:#ffffff; --svg-text:#e8eaf6;
+}
+body.light {
+  --bg:#f4f6fb; --surface:#ffffff; --surface2:#eef0f7; --border:#d0d5e8;
+  --accent:#2563eb; --accent2:#6d3fcf; --green:#16a34a; --red:#dc2626;
+  --orange:#d97706; --text:#1a1d2e; --muted:#5a6380; --card:#ffffff;
+  --choice-hover:#e8edf8;
+  --svg-stroke:#1a1d2e; --svg-point:#1a1d2e; --svg-text:#1a1d2e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden;}
+header{width:100%;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:4px;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--text);}
+.logo span{color:var(--accent);}
+.header-info{font-size:0.75rem;color:var(--muted);text-align:right;line-height:1.4;}
+.container{width:100%;max-width:780px;padding:36px 20px;animation:fadeUp 0.4s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.screen{display:none;} .screen.active{display:block;}
+
+/* HOME */
+.home-title{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;line-height:1.15;margin-bottom:8px;background:linear-gradient(135deg,var(--text) 40%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.home-sub{color:var(--muted);font-size:.95rem;margin-bottom:36px;font-weight:300;}
+.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;}
+.mode-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:24px 20px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.mode-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 40px rgba(79,140,255,.15);}
+.mode-card.selected{border-color:var(--accent);background:var(--surface2);}
+.mode-card.exam-mode:hover,.mode-card.exam-mode.selected{border-color:var(--accent2);box-shadow:0 12px 40px rgba(124,92,252,.15);}
+.mode-icon{font-size:1.8rem;margin-bottom:12px;}
+.mode-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:6px;}
+.mode-desc{font-size:.82rem;color:var(--muted);line-height:1.5;font-weight:300;}
+.mode-badge{position:absolute;top:12px;right:12px;background:var(--accent2);color:white;font-size:.65rem;font-weight:600;padding:3px 8px;border-radius:20px;letter-spacing:.5px;font-family:'Syne',sans-serif;}
+.section-label{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.theme-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
+.theme-chip{background:var(--surface2);border:1.5px solid var(--border);border-radius:30px;padding:6px 14px;font-size:.8rem;cursor:pointer;transition:all .18s;color:var(--muted);}
+.theme-chip:hover{border-color:var(--accent);color:var(--text);}
+.theme-chip.active{background:var(--accent);border-color:var(--accent);color:white;font-weight:500;}
+.theme-section{transition:opacity .2s;} .theme-section.hidden{opacity:.3;pointer-events:none;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:10px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s;}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#3b6fdb);color:white;box-shadow:0 4px 20px rgba(79,140,255,.35);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(79,140,255,.45);}
+.btn-exam{background:linear-gradient(135deg,var(--accent2),#5a3fc0);color:white;box-shadow:0 4px 20px rgba(124,92,252,.35);}
+.btn-exam:hover{transform:translateY(-2px);}
+.btn-secondary{background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);}
+.btn-secondary:hover{color:var(--text);border-color:var(--accent);}
+.btn-ghost{background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;font-size:.85rem;padding:10px 0;border:none;cursor:pointer;transition:color .15s;display:inline-flex;align-items:center;gap:6px;}
+.btn-ghost:hover{color:var(--text);}
+
+/* QUESTION */
+.q-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.q-meta{display:flex;align-items:center;gap:12px;}
+.q-counter{font-family:'Syne',sans-serif;font-size:.78rem;color:var(--muted);font-weight:600;}
+.q-theme-badge{background:var(--surface2);border:1px solid var(--border);color:var(--accent);font-size:.7rem;font-weight:600;font-family:'Syne',sans-serif;padding:4px 10px;border-radius:20px;}
+.timer-box{display:flex;align-items:center;gap:7px;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:7px 16px;font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:var(--text);transition:border-color .3s,color .3s;min-width:105px;justify-content:center;}
+.timer-box.warning{border-color:var(--orange);color:var(--orange);}
+.timer-box.danger{border-color:var(--red);color:var(--red);animation:pulse .8s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;margin-bottom:26px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .4s ease;}
+.exam-banner{background:var(--surface2);border:1.5px solid var(--accent2);border-radius:10px;padding:10px 18px;margin-bottom:18px;font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:10px;}
+.exam-banner strong{color:var(--accent2);}
+.q-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px;animation:fadeUp .3s ease;}
+.q-text{font-size:1.05rem;line-height:1.7;font-weight:400;color:var(--text);margin-bottom:6px;}
+.q-hint{font-size:.78rem;color:var(--muted);margin-top:8px;font-style:italic;font-weight:300;}
+.choices{display:flex;flex-direction:column;gap:9px;margin-top:20px;}
+.choice-btn{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:12px 18px;text-align:left;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:12px;color:var(--text);font-size:.92rem;font-family:'DM Sans',sans-serif;}
+.choice-btn:hover:not(:disabled){border-color:var(--accent);background:var(--choice-hover);}
+.choice-letter{font-family:'Syne',sans-serif;font-weight:700;font-size:.75rem;width:26px;height:26px;border-radius:6px;background:var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--muted);transition:all .18s;}
+.choice-btn:hover:not(:disabled) .choice-letter{background:var(--accent);color:white;}
+.choice-btn.correct{border-color:var(--green);background:rgba(61,214,140,.1);}
+.choice-btn.correct .choice-letter{background:var(--green);color:#0f1117;}
+.choice-btn.wrong{border-color:var(--red);background:rgba(255,92,92,.08);}
+.choice-btn.wrong .choice-letter{background:var(--red);color:white;}
+.choice-btn.exam-selected{border-color:var(--accent2);background:rgba(124,92,252,.1);}
+.choice-btn.exam-selected .choice-letter{background:var(--accent2);color:white;}
+.choice-btn:disabled{cursor:default;}
+.input-area{margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.q-input{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;font-size:.95rem;color:var(--text);font-family:'DM Sans',sans-serif;width:200px;outline:none;transition:border-color .18s;}
+.q-input:focus{border-color:var(--accent);}
+.q-input.correct{border-color:var(--green);}
+.q-input.wrong{border-color:var(--red);}
+.q-input.exam-filled{border-color:var(--accent2);}
+.btn-validate{background:var(--accent);color:white;border:none;border-radius:10px;padding:12px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .18s;}
+.btn-validate:hover{background:#3b6fdb;}
+.feedback-box{background:var(--surface2);border-radius:10px;padding:14px 18px;margin-top:12px;display:none;animation:fadeUp .25s ease;border-left:3px solid var(--green);}
+.feedback-box.wrong-fb{border-color:var(--red);}
+.feedback-text{font-size:.88rem;color:var(--text);line-height:1.6;}
+.feedback-expl{font-size:.83rem;color:var(--muted);margin-top:5px;line-height:1.55;font-weight:300;}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:8px;flex-wrap:wrap;gap:10px;}
+
+/* SVG figures dans les questions */
+.q-figure{margin:16px 0;display:flex;justify-content:center;}
+.q-figure svg{max-width:100%;}
+.q-figure table{border-collapse:collapse;font-size:1.1rem;}
+.q-figure table td,.q-figure table th{border:1px solid var(--border);padding:8px 16px;text-align:center;}
+.q-figure table th{background:var(--surface2);font-family:'Syne',sans-serif;}
+
+/* Notation angle */
+.ang-wrap{display:inline-flex;align-items:flex-end;gap:0;line-height:1;}
+.ang-side{font-size:1em;line-height:1;}
+.ang-mid{display:inline-flex;flex-direction:column;align-items:center;line-height:1;}
+.ang-mid .cap{font-size:.75em;line-height:.9;}
+.ang-mid .let{font-size:1em;line-height:1;}
+
+/* Fraction */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.9em;line-height:1.1;margin:0 3px;}
+.frac .num{border-bottom:1.5px solid currentColor;padding:0 3px;text-align:center;}
+.frac .den{padding:0 3px;text-align:center;}
+
+/* RESULTS */
+.results-header{text-align:center;margin-bottom:36px;}
+.score-ring-wrap{display:flex;justify-content:center;margin-bottom:24px;}
+.score-ring{position:relative;width:150px;height:150px;}
+.score-ring svg{transform:rotate(-90deg);width:150px;height:150px;}
+.score-ring circle{fill:none;stroke-width:10;}
+.ring-bg{stroke:var(--border);}
+.ring-fill{stroke:var(--green);stroke-linecap:round;transition:stroke-dashoffset 1s ease;}
+.score-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.score-num{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--text);line-height:1;}
+.score-denom{font-family:'Syne',sans-serif;font-size:.8rem;color:var(--muted);}
+.results-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:6px;}
+.results-sub{color:var(--muted);font-weight:300;font-size:.9rem;margin-bottom:8px;}
+.mention-badge{display:inline-block;padding:5px 16px;border-radius:30px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;margin-bottom:28px;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;}
+.stat-val{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:4px;}
+.stat-lbl{font-size:.75rem;color:var(--muted);font-weight:300;text-transform:uppercase;letter-spacing:.5px;}
+.correction-title{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;margin-bottom:14px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.correction-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:10px;border-left:3px solid var(--border);}
+.correction-item.ok{border-left-color:var(--green);}
+.correction-item.ko{border-left-color:var(--red);}
+.ci-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:7px;}
+.ci-q{font-size:.88rem;color:var(--text);line-height:1.5;font-weight:400;flex:1;}
+.ci-status{font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:20px;flex-shrink:0;}
+.ci-status.ok{background:rgba(61,214,140,.15);color:var(--green);}
+.ci-status.ko{background:rgba(255,92,92,.12);color:var(--red);}
+.ci-status.sk{background:rgba(255,179,71,.12);color:var(--orange);}
+.ci-answer{font-size:.81rem;color:var(--muted);margin-bottom:3px;font-weight:300;}
+.ci-answer strong{color:var(--text);}
+.ci-expl{font-size:.8rem;color:var(--muted);font-style:italic;font-weight:300;line-height:1.5;margin-top:5px;padding-top:5px;border-top:1px solid var(--border);}
+.results-actions{display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap;}
+@media(max-width:560px){.mode-cards{grid-template-columns:1fr;}.q-card{padding:20px 16px;}.stats-row{grid-template-columns:1fr 1fr;}.container{padding:20px 14px;}header{padding:0 16px;}}
+
+/* PLEIN ÉCRAN / PROJECTION */
+@media(max-width:560px){#fs-btn{display:none !important;}}
+body.presenting .container{max-width:1200px;}
+body.presenting .home-title{font-size:2.8rem;}
+body.presenting .home-sub{font-size:1.2rem;}
+body.presenting .section-label{font-size:.9rem;}
+body.presenting .mode-card{padding:30px 26px;}
+body.presenting .mode-title{font-size:1.3rem;}
+body.presenting .mode-desc{font-size:1.05rem;}
+body.presenting .theme-chip{font-size:1.05rem;padding:9px 20px;}
+body.presenting .btn{font-size:1.15rem;padding:15px 34px;}
+body.presenting .btn-ghost{font-size:1.15rem;}
+body.presenting .q-counter{font-size:1.15rem;}
+body.presenting .q-theme-badge{font-size:.95rem;padding:5px 14px;}
+body.presenting .timer-box{font-size:2.4rem;padding:8px 28px;min-width:200px;border-radius:14px;}
+body.presenting .exam-banner{font-size:1.2rem;padding:16px 24px;}
+body.presenting .q-card{padding:48px 56px;}
+body.presenting .q-text{font-size:1.9rem;}
+body.presenting .q-hint{font-size:1.1rem;}
+body.presenting .choice-btn{font-size:1.45rem;padding:18px 24px;}
+body.presenting .choice-letter{width:38px;height:38px;font-size:1.05rem;}
+body.presenting .q-input{font-size:1.4rem;width:300px;padding:16px 20px;}
+body.presenting .btn-validate{font-size:1.2rem;padding:16px 30px;}
+body.presenting .feedback-text{font-size:1.4rem;}
+body.presenting .feedback-expl{font-size:1.25rem;}
+body.presenting .q-figure svg{max-width:min(600px,100%) !important;max-height:420px;}
+body.presenting .q-figure table{font-size:1.5rem;}
+body.presenting .results-title{font-size:2.1rem;}
+body.presenting .results-sub{font-size:1.2rem;}
+body.presenting .mention-badge{font-size:1.1rem;}
+body.presenting .stat-val{font-size:2rem;}
+body.presenting .stat-lbl{font-size:1rem;}
+body.presenting .correction-title{font-size:.95rem;}
+body.presenting .correction-item{padding:22px 26px;}
+body.presenting .ci-q{font-size:1.35rem;}
+body.presenting .ci-status{font-size:1rem;padding:5px 13px;}
+body.presenting .ci-answer{font-size:1.2rem;}
+body.presenting .ci-expl{font-size:1.15rem;}
+
+/* ── 6ème : en-tête, choix des thèmes, tables de multiplication ── */
+.hdr-right{display:flex;align-items:center;gap:16px;}
+.hdr-btn{background:var(--surface2);border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;cursor:pointer;font-size:.78rem;color:var(--muted);font-family:'Syne',sans-serif;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.hdr-btn:hover{border-color:var(--accent);color:var(--text);}
+button.mode-card{font:inherit;color:inherit;text-align:left;width:100%;}
+button.theme-chip{font-family:inherit;}
+.theme-chip.disabled{opacity:.35;cursor:not-allowed;}
+.theme-chip.disabled:hover{border-color:var(--border);color:var(--muted);}
+.setup-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.9rem;line-height:1.15;margin-bottom:8px;}
+.setup-intro{color:var(--muted);font-size:.93rem;line-height:1.6;margin-bottom:26px;}
+.theme-info{font-size:.82rem;color:var(--muted);min-height:1.4em;margin:-14px 0 24px;line-height:1.5;}
+.setup-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+.tbl-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.tbl-score{font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;color:var(--green);}
+.tbl-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:40px 20px 30px;text-align:center;margin-bottom:20px;transition:border-color .15s,background .15s;}
+.tbl-card.ok{border-color:var(--green);background:rgba(61,214,140,.08);}
+.tbl-question{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.6rem,11vw,4.6rem);line-height:1.1;margin-bottom:22px;letter-spacing:1px;}
+.tbl-input{background:var(--surface2);border:2px solid var(--border);border-radius:14px;padding:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(2rem,9vw,3rem);width:min(220px,70%);text-align:center;color:var(--text);outline:none;transition:border-color .15s;}
+.tbl-input:focus{border-color:var(--accent);}
+.tbl-input.ko{border-color:var(--red);background:rgba(255,92,92,.1);}
+.tbl-msg{min-height:3.2rem;margin-top:18px;font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.3rem,5vw,1.7rem);color:var(--red);}
+.tbl-big{font-family:'Syne',sans-serif;font-weight:800;font-size:5rem;line-height:1;color:var(--accent);margin-bottom:8px;}
+.err-list{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;}
+.err-item{background:var(--card);border:1.5px solid var(--border);border-left:4px solid var(--red);border-radius:10px;padding:10px 16px;font-size:1rem;}
+.err-item strong{font-family:'Syne',sans-serif;}
+.err-item span{color:var(--muted);font-size:.8rem;margin-left:8px;}
+.err-none{color:var(--green);font-weight:600;margin-bottom:28px;}
+@media(max-width:560px){.header-info{display:none;}.tbl-big{font-size:4rem;}}
+body.presenting .setup-title{font-size:2.6rem;}
+body.presenting .setup-intro{font-size:1.2rem;}
+body.presenting .theme-info{font-size:1.05rem;}
+body.presenting .tbl-score{font-size:1.8rem;}
+body.presenting .tbl-card{padding:60px 30px 44px;}
+body.presenting .tbl-question{font-size:7.5rem;}
+body.presenting .tbl-input{font-size:4.5rem;width:360px;}
+body.presenting .tbl-msg{font-size:2.6rem;}
+body.presenting .tbl-big{font-size:8rem;}
+body.presenting .err-item{font-size:1.5rem;padding:14px 22px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Auto<span>6ème</span></div>
+  <div class="hdr-right">
+    <button type="button" id="fs-btn" class="hdr-btn" onclick="toggleFullscreen()"><span id="fs-icon">⛶</span><span id="fs-label">Plein écran</span></button>
+    <button type="button" id="theme-toggle" class="hdr-btn" onclick="toggleTheme()"><span id="theme-icon">☀️</span><span id="theme-label">Fond clair</span></button>
+    <div class="header-info">Révision des automatismes · 6ème<br>Collège Fernand Donatien · Fort-de-France</div>
+  </div>
+</header>
+<div class="container">
+
+<!-- ACCUEIL -->
+<div class="screen active" id="screen-home">
+  <div class="home-title">Révise tes<br>maths</div>
+  <div class="home-sub">Automatismes et tables de multiplication · 6ème</div>
+  <div class="section-label">Choisis ton entraînement</div>
+  <div class="mode-cards">
+    <button type="button" class="mode-card" onclick="openAutoSetup()">
+      <div class="mode-icon">🧮</div>
+      <div class="mode-title">Automatismes</div>
+      <div class="mode-desc">6 questions en 5 minutes. Tu choisis tes thèmes, ou tous. La correction est donnée à la fin.</div>
+    </button>
+    <button type="button" class="mode-card exam-mode" onclick="openTablesSetup()">
+      <div class="mode-icon">✖️</div>
+      <div class="mode-title">Tables de multiplication</div>
+      <div class="mode-desc">60 secondes pour répondre à un maximum de multiplications. Tu choisis tes tables, ou toutes.</div>
+    </button>
+  </div>
+  <div style="margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-size:.75rem;color:var(--muted);text-align:center;line-height:1.8;">
+    Conçu par <strong style="color:var(--text)">Philippe Auria</strong> · Collège Fernand Donatien · Fort-de-France
+  </div>
+</div>
+
+<!-- AUTOMATISMES : CHOIX DES THÈMES -->
+<div class="screen" id="screen-auto-setup">
+  <div class="setup-title">Automatismes</div>
+  <div class="setup-intro">6 questions en 5 minutes. Le chrono ne s'arrête pas et tu verras la correction à la fin de la série.</div>
+  <div class="section-label">Tes thèmes</div>
+  <div class="theme-grid" id="theme-grid"></div>
+  <div class="theme-info" id="theme-info" aria-live="polite"></div>
+  <div class="setup-actions">
+    <button type="button" class="btn btn-primary" onclick="startAuto()">Commencer</button>
+    <button type="button" class="btn-ghost" onclick="goHome()">Accueil</button>
+  </div>
+</div>
+
+<!-- AUTOMATISMES : QUESTION -->
+<div class="screen" id="screen-question">
+  <div class="q-header">
+    <div class="q-meta">
+      <span class="q-counter" id="q-counter">Question 1 / 6</span>
+      <span class="q-theme-badge" id="q-theme-badge">Thème</span>
+    </div>
+    <div class="timer-box" id="timer-box">⏱ <span id="timer-display">05:00</span></div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  <div class="exam-banner">🔒 La correction est donnée à la fin de la série. Réponds à toutes les questions avant la fin du temps.</div>
+  <div class="q-card" id="q-card">
+    <div class="q-text" id="q-text"></div>
+    <div id="q-figure-container"></div>
+    <div class="q-hint" id="q-hint"></div>
+    <div class="choices" id="choices-container"></div>
+    <div class="input-area" id="input-area" style="display:none">
+      <input type="text" class="q-input" id="q-input" placeholder="Ta réponse…" autocomplete="off" aria-label="Ta réponse">
+      <button type="button" class="btn-validate" id="btn-validate" onclick="validateInput()">Valider</button>
+    </div>
+  </div>
+  <div class="q-nav">
+    <button type="button" class="btn-ghost" onclick="goHome()">Accueil</button>
+    <div style="display:flex;gap:10px;">
+      <button type="button" class="btn btn-primary" id="btn-finish" onclick="finishSession()" style="display:none">Voir les résultats</button>
+      <button type="button" class="btn btn-secondary" id="btn-skip" onclick="skipQuestion()">Passer</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTOMATISMES : RÉSULTATS -->
+<div class="screen" id="screen-results">
+  <div class="results-header">
+    <div class="score-ring-wrap">
+      <div class="score-ring">
+        <svg viewBox="0 0 150 150"><circle class="ring-bg" cx="75" cy="75" r="65"/><circle class="ring-fill" id="ring-fill" cx="75" cy="75" r="65" stroke-dasharray="408.41" stroke-dashoffset="408.41"/></svg>
+        <div class="score-label"><div class="score-num" id="score-num">0</div><div class="score-denom" id="score-denom">/ 6</div></div>
+      </div>
+    </div>
+    <div class="results-title" id="results-title">Résultats</div>
+    <div class="results-sub" id="results-sub"></div>
+    <div class="mention-badge" id="mention-badge"></div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val" id="stat-correct" style="color:var(--green)">0</div><div class="stat-lbl">Correctes</div></div>
+    <div class="stat-box"><div class="stat-val" id="stat-wrong" style="color:var(--red)">0</div><div class="stat-lbl">Incorrectes</div></div>
+    <div class="stat-box"><div class="stat-val" id="stat-skip" style="color:var(--orange)">0</div><div class="stat-lbl">Passées</div></div>
+  </div>
+  <div class="correction-title">Correction détaillée</div>
+  <div id="correction-list"></div>
+  <div class="results-actions">
+    <button type="button" class="btn btn-primary" onclick="startAuto()">Recommencer</button>
+    <button type="button" class="btn btn-secondary" onclick="openAutoSetup()">Changer de thèmes</button>
+    <button type="button" class="btn btn-secondary" onclick="goHome()">Accueil</button>
+  </div>
+  <div style="margin-top:36px;padding-top:16px;border-top:1px solid var(--border);font-size:.72rem;color:var(--muted);text-align:center;">
+    Conçu par <strong style="color:var(--text)">Philippe Auria</strong> · Collège Fernand Donatien · Fort-de-France
+  </div>
+</div>
+
+<!-- TABLES : CHOIX -->
+<div class="screen" id="screen-tables-setup">
+  <div class="setup-title">Tables de multiplication</div>
+  <div class="setup-intro">60 secondes pour répondre à un maximum de multiplications. Si tu te trompes, la bonne réponse s'affiche, et la multiplication revient plus tard.</div>
+  <div class="section-label">Tes tables</div>
+  <div class="theme-grid" id="tables-grid"></div>
+  <div class="theme-info" id="tables-info" aria-live="polite"></div>
+  <div class="setup-actions">
+    <button type="button" class="btn btn-exam" onclick="startTables()">Commencer</button>
+    <button type="button" class="btn-ghost" onclick="goHome()">Accueil</button>
+  </div>
+</div>
+
+<!-- TABLES : JEU -->
+<div class="screen" id="screen-tables-play">
+  <div class="tbl-top">
+    <div class="tbl-score" id="tbl-score">✓ 0</div>
+    <div class="timer-box" id="tbl-timer">⏱ <span id="tbl-timer-display">01:00</span></div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="tbl-progress" style="width:0%"></div></div>
+  <div class="tbl-card" id="tbl-card">
+    <div class="tbl-question" id="tbl-question" aria-live="polite"></div>
+    <input type="text" class="tbl-input" id="tbl-input" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" aria-label="Le résultat de la multiplication">
+    <div class="tbl-msg" id="tbl-msg" role="status"></div>
+  </div>
+  <div class="q-nav">
+    <button type="button" class="btn-ghost" onclick="goHome()">Quitter</button>
+  </div>
+</div>
+
+<!-- TABLES : RÉSULTATS -->
+<div class="screen" id="screen-tables-results">
+  <div class="results-header">
+    <div class="tbl-big" id="tbl-res-score">0</div>
+    <div class="results-title" id="tbl-res-title">bonnes réponses</div>
+    <div class="results-sub" id="tbl-res-sub"></div>
+    <div class="mention-badge" id="tbl-record" style="display:none"></div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val" id="tbl-stat-ok" style="color:var(--green)">0</div><div class="stat-lbl">Correctes</div></div>
+    <div class="stat-box"><div class="stat-val" id="tbl-stat-ko" style="color:var(--red)">0</div><div class="stat-lbl">Erreurs</div></div>
+    <div class="stat-box"><div class="stat-val" id="tbl-stat-pct" style="color:var(--accent)">0 %</div><div class="stat-lbl">Réussite</div></div>
+  </div>
+  <div class="correction-title" id="tbl-err-title">À retravailler</div>
+  <div class="err-list" id="tbl-err-list"></div>
+  <div class="results-actions">
+    <button type="button" class="btn btn-primary" id="tbl-retry-btn" onclick="refaireErreurs()">Refaire mes erreurs</button>
+    <button type="button" class="btn btn-secondary" onclick="startTables()">Rejouer</button>
+    <button type="button" class="btn btn-secondary" onclick="openTablesSetup()">Changer de tables</button>
+    <button type="button" class="btn btn-secondary" onclick="goHome()">Accueil</button>
+  </div>
+  <div style="margin-top:36px;padding-top:16px;border-top:1px solid var(--border);font-size:.72rem;color:var(--muted);text-align:center;">
+    Conçu par <strong style="color:var(--text)">Philippe Auria</strong> · Collège Fernand Donatien · Fort-de-France
+  </div>
+</div>
+
+</div><!-- /container -->
+<script>
+// ═══════════════════════════════════════════════════════════
+// RÉGLAGES (faciles à modifier)
+// ═══════════════════════════════════════════════════════════
+const NB_QUESTIONS = 6;          // questions par série d'automatismes, et nombre maximum de thèmes choisis
+const DUREE_AUTO = 300;          // durée de la série d'automatismes, en secondes
+const DUREE_TABLES = 60;         // durée de la série de tables, en secondes
+const ALERTE_AUTO = [90, 30];    // secondes restantes : chrono orange, puis rouge
+const ALERTE_TABLES = [20, 10];
+const TABLES_MAX = 12;           // tables proposées : de 1 à TABLES_MAX
+const PAUSE_ERREUR = 1100;       // millisecondes d'affichage de la bonne réponse après une erreur
+const RETOUR_ERREUR = 3;         // une multiplication ratée est redemandée après autant de questions
+
+// >>> SYNC:DEBUT (bloc généré par _outils/sync_6e.js depuis la console profs : ne pas modifier ici, relancer le script)
+// Outils communs (22 déclarations)
+const rnd = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+const shuffle = arr => { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+function ang(a, mid, c) {
+  return `<span class="ang-wrap"><span class="ang-side">${a}</span><span class="ang-mid"><span class="cap">∧</span><span class="let">${mid}</span></span><span class="ang-side">${c}</span></span>`;
+}
+function frac(n, d) {
+  return `<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;
+}
+// Formatage à la française : virgule décimale, tiret typographique pour le signe moins
+function nb(x){
+  if(x===undefined||x===null) return x;
+  let n = typeof x==='number' ? x : parseFloat(String(x).replace(',','.'));
+  if(Number.isNaN(n)) return String(x);
+  n = Math.round(n*1000)/1000;
+  return String(n).replace('.', ',').replace('-','−');
+}
+// "de " + mot, avec élision en "d'" si le mot commence par une voyelle (ou h muet)
+function de_(mot){ return /^[aeiouhâàéèêëîïôöùûAEIOUH]/.test(mot) ? `d'${mot}` : `de ${mot}`; }
+// Exposant en chiffres unicode (ex: sup(-3) -> "⁻³"), pour les puissances de 10.
+function sup(n){ const map={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'}; return String(n).split('').map(c=>map[c]||c).join(''); }
+function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ [a,b]=[b,a%b]; } return a||1; }
+
+// Nombres négatifs : réglage global de la console (case à cocher, niveau 5e). Lu par les générateurs
+// de 5e concernés au moment de générer une question.
+function svgScratch(blocs) {
+  let y=0; let svg=''; const departs=[];
+  const W=260, xi=44, xi2=64, enc=8, ex=72, ex2=92;
+  blocs.forEach((b)=>{
+    if(b.type==='event'){
+      svg+=`<path d="M${xi},${y+50} Q${xi},${y+28} ${xi+22},${y+28} L${xi+66},${y+28} Q${xi+86},${y+28} ${xi+86},${y+50} L${W},${y+50} L${W},${y+84} L${ex2},${y+84} L${ex2},${y+84+enc} Q${(ex+ex2)/2},${y+84+enc+4} ${ex},${y+84+enc} L${ex},${y+84} L${xi},${y+84} Z" fill="#FFAB19" stroke="#CF8B17" stroke-width="1"/>`;
+      svg+=`<line x1="${xi+18}" y1="${y+33}" x2="${xi+18}" y2="${y+49}" stroke="#2E7D32" stroke-width="1.5"/>`;
+      svg+=`<polygon points="${xi+18},${y+34} ${xi+18},${y+48} ${xi+30},${y+41}" fill="#43A047"/>`;
+      svg+=`<text x="${xi+38}" y="${y+71}" font-size="11" font-family="sans-serif" fill="#7A4E00" font-weight="600">quand</text>`;
+      svg+=`<line x1="${xi+90}" y1="${y+57}" x2="${xi+90}" y2="${y+73}" stroke="#2E7D32" stroke-width="1.5"/>`;
+      svg+=`<polygon points="${xi+90},${y+58} ${xi+90},${y+72} ${xi+102},${y+65}" fill="#43A047"/>`;
+      svg+=`<text x="${xi+108}" y="${y+71}" font-size="11" font-family="sans-serif" fill="#7A4E00" font-weight="600">est cliqué</text>`;
+      y+=84;
+    } else if(b.type==='repeat_start'){
+      svg+=`<path d="M${xi},${y} L${ex},${y} L${ex},${y+enc} Q${(ex+ex2)/2},${y+enc+4} ${ex2},${y+enc} L${ex2},${y} L${W},${y} L${W},${y+34} L${ex2},${y+34} L${ex2},${y+34+enc} Q${(ex+ex2)/2},${y+34+enc+4} ${ex},${y+34+enc} L${ex},${y+34} L${xi2},${y+34} L${xi},${y+34} Z" fill="#E6821E" stroke="#CF6E17" stroke-width="1"/>`;
+      svg+=`<text x="${xi+14}" y="${y+22}" font-size="11" font-family="sans-serif" fill="white" font-weight="600">répéter</text>`;
+      svg+=`<rect x="${xi+82}" y="${y+9}" width="24" height="16" rx="8" fill="white" stroke="#CF6E17" stroke-width="1"/>`;
+      svg+=`<text x="${xi+94}" y="${y+21}" text-anchor="middle" font-size="11" font-family="sans-serif" fill="#7A4400" font-weight="700">${b.val}</text>`;
+      svg+=`<text x="${xi+112}" y="${y+22}" font-size="11" font-family="sans-serif" fill="white" font-weight="600">fois</text>`;
+      y+=34; departs.push(y);
+    } else if(b.type==='repeat_end'){
+      const yDepart=departs.length?departs.pop():y;
+      svg+=`<rect x="${xi}" y="${yDepart}" width="20" height="${y-yDepart}" fill="#E6821E" stroke="#CF6E17" stroke-width="1"/>`;
+      svg+=`<path d="M${xi},${y} L${xi2},${y} L${W},${y} L${W},${y+24} L${ex2},${y+24} L${ex2},${y+24+enc} Q${(ex+ex2)/2},${y+24+enc+4} ${ex},${y+24+enc} L${ex},${y+24} L${xi},${y+24} Z" fill="#E6821E" stroke="#CF6E17" stroke-width="1"/>`;
+      y+=24;
+    } else if(b.type==='move'){
+      svg+=`<path d="M${xi2},${y} L${ex},${y} L${ex},${y+enc} Q${(ex+ex2)/2},${y+enc+4} ${ex2},${y+enc} L${ex2},${y} L${W},${y} L${W},${y+34} L${ex2},${y+34} L${ex2},${y+34+enc} Q${(ex+ex2)/2},${y+34+enc+4} ${ex},${y+34+enc} L${ex},${y+34} L${xi2},${y+34} Z" fill="#4C97FF" stroke="#3373CC" stroke-width="1"/>`;
+      svg+=`<text x="${xi2+16}" y="${y+22}" font-size="11" font-family="sans-serif" fill="white">avancer de</text>`;
+      svg+=`<rect x="${xi2+92}" y="${y+9}" width="32" height="16" rx="8" fill="white" stroke="#3373CC" stroke-width="1"/>`;
+      svg+=`<text x="${xi2+108}" y="${y+21}" text-anchor="middle" font-size="11" font-family="sans-serif" fill="#1A4A9C" font-weight="700">${b.val}</text>`;
+      svg+=`<text x="${xi2+128}" y="${y+22}" font-size="11" font-family="sans-serif" fill="white">pas</text>`;
+      y+=34;
+    } else if(b.type==='turn'){
+      svg+=`<path d="M${xi2},${y} L${ex},${y} L${ex},${y+enc} Q${(ex+ex2)/2},${y+enc+4} ${ex2},${y+enc} L${ex2},${y} L${W},${y} L${W},${y+34} L${xi2},${y+34} Z" fill="#4C97FF" stroke="#3373CC" stroke-width="1"/>`;
+      svg+=`<text x="${xi2+16}" y="${y+22}" font-size="11" font-family="sans-serif" fill="white">tourner ↻ de</text>`;
+      svg+=`<rect x="${xi2+104}" y="${y+9}" width="24" height="16" rx="8" fill="white" stroke="#3373CC" stroke-width="1"/>`;
+      svg+=`<text x="${xi2+116}" y="${y+21}" text-anchor="middle" font-size="11" font-family="sans-serif" fill="#1A4A9C" font-weight="700">${b.val}</text>`;
+      svg+=`<text x="${xi2+133}" y="${y+22}" font-size="11" font-family="sans-serif" fill="white">°</text>`;
+      y+=34;
+    } else if(b.type==='wait'){
+      svg+=`<path d="M${xi2},${y} L${ex},${y} L${ex},${y+enc} Q${(ex+ex2)/2},${y+enc+4} ${ex2},${y+enc} L${ex2},${y} L${W},${y} L${W},${y+34} L${ex2},${y+34} L${ex2},${y+34+enc} Q${(ex+ex2)/2},${y+34+enc+4} ${ex},${y+34+enc} L${ex},${y+34} L${xi2},${y+34} Z" fill="#FFAB19" stroke="#CF8B17" stroke-width="1"/>`;
+      svg+=`<text x="${xi2+16}" y="${y+22}" font-size="11" font-family="sans-serif" fill="#664400" font-weight="600">attendre</text>`;
+      svg+=`<rect x="${xi2+78}" y="${y+9}" width="26" height="16" rx="8" fill="white" stroke="#CF8B17" stroke-width="1"/>`;
+      svg+=`<text x="${xi2+91}" y="${y+21}" text-anchor="middle" font-size="11" font-family="sans-serif" fill="#7A4400" font-weight="700">${b.val}</text>`;
+      svg+=`<text x="${xi2+110}" y="${y+22}" font-size="11" font-family="sans-serif" fill="#664400" font-weight="600">secondes</text>`;
+      y+=34;
+    } else if(b.type==='pen'){
+      svg+=`<path d="M${xi2},${y} L${ex},${y} L${ex},${y+enc} Q${(ex+ex2)/2},${y+enc+4} ${ex2},${y+enc} L${ex2},${y} L${W},${y} L${W},${y+34} L${ex2},${y+34} L${ex2},${y+34+enc} Q${(ex+ex2)/2},${y+34+enc+4} ${ex},${y+34+enc} L${ex},${y+34} L${xi2},${y+34} Z" fill="#0FBD8C" stroke="#0B9A70" stroke-width="1"/>`;
+      svg+=`<text x="${xi2+16}" y="${y+22}" font-size="11" font-family="sans-serif" fill="white" font-weight="600">stylo ${b.val==='down'?'baissé':'levé'}</text>`;
+      y+=34;
+    } else if(b.type==='say'){
+      svg+=`<path d="M${xi2},${y} L${ex},${y} L${ex},${y+enc} Q${(ex+ex2)/2},${y+enc+4} ${ex2},${y+enc} L${ex2},${y} L${W},${y} L${W},${y+34} L${ex2},${y+34} L${ex2},${y+34+enc} Q${(ex+ex2)/2},${y+34+enc+4} ${ex},${y+34+enc} L${ex},${y+34} L${xi2},${y+34} Z" fill="#9966FF" stroke="#774DCB" stroke-width="1"/>`;
+      svg+=`<text x="${xi2+16}" y="${y+22}" font-size="11" font-family="sans-serif" fill="white" font-weight="600">dire "${b.val}"</text>`;
+      y+=34;
+    }
+  });
+  return `<svg width="100%" viewBox="0 0 280 ${y+20}" style="max-width:280px">${svg}</svg>`;
+}
+
+// SVG quadrilatère (nature à partir de codages)
+function svgQuadrilatere(kind){
+  // Coordonnées dédiées à chaque cas : un marqueur d'angle droit n'a de sens que si la figure a réellement un angle droit à cet endroit.
+  const shapes = {
+    losange: {A:{x:220,y:140},B:{x:130,y:190},C:{x:80,y:100},D:{x:170,y:50}},
+    rectangle: {A:{x:73,y:48},B:{x:250,y:85},C:{x:227,y:193},D:{x:51,y:155}},
+    carre: {A:{x:102,y:46},B:{x:224,y:72},C:{x:198,y:194},D:{x:76,y:168}},
+    parallelogramme: {A:{x:60,y:50},B:{x:220,y:70},C:{x:260,y:210},D:{x:100,y:190}},
+    quelconque: {A:{x:40,y:160},B:{x:230,y:190},C:{x:260,y:50},D:{x:80,y:40}},
+  };
+  const pts = shapes[kind] || shapes.quelconque;
+  const order=['A','B','C','D'];
+  const poly = order.map(k=>`${pts[k].x},${pts[k].y}`).join(' ');
+  const cStroke='var(--svg-stroke)';
+  function tickAt(p1,p2,n){
+    const dx=p2.x-p1.x, dy=p2.y-p1.y; const len=Math.hypot(dx,dy); const ux=dx/len, uy=dy/len;
+    const px=-uy, py=ux; const mx=(p1.x+p2.x)/2, my=(p1.y+p2.y)/2;
+    let s=''; const gap=6;
+    for(let i=0;i<n;i++){
+      const t=(i-(n-1)/2)*gap;
+      const cx=mx+ux*t, cy=my+uy*t;
+      s+=`<line x1="${cx-px*6}" y1="${cy-py*6}" x2="${cx+px*6}" y2="${cy+py*6}" stroke="${cStroke}" stroke-width="1.5"/>`;
+    }
+    return s;
+  }
+  function rightAngle(vertex, prevPt, nextPt){
+    const s=16;
+    const d1x=prevPt.x-vertex.x, d1y=prevPt.y-vertex.y; const l1=Math.hypot(d1x,d1y); const u1x=d1x/l1*s, u1y=d1y/l1*s;
+    const d2x=nextPt.x-vertex.x, d2y=nextPt.y-vertex.y; const l2=Math.hypot(d2x,d2y); const u2x=d2x/l2*s, u2y=d2y/l2*s;
+    const p1x=vertex.x+u1x, p1y=vertex.y+u1y;
+    const p2x=vertex.x+u1x+u2x, p2y=vertex.y+u1y+u2y;
+    const p3x=vertex.x+u2x, p3y=vertex.y+u2y;
+    return `<polyline points="${p1x.toFixed(1)},${p1y.toFixed(1)} ${p2x.toFixed(1)},${p2y.toFixed(1)} ${p3x.toFixed(1)},${p3y.toFixed(1)}" fill="none" stroke="${cStroke}" stroke-width="1.5"/>`;
+  }
+  let extra='', diag='';
+  if(kind==='losange'){
+    extra=tickAt(pts.A,pts.B,1)+tickAt(pts.B,pts.C,1)+tickAt(pts.C,pts.D,1)+tickAt(pts.D,pts.A,1);
+    diag=`<line x1="${pts.A.x}" y1="${pts.A.y}" x2="${pts.C.x}" y2="${pts.C.y}" stroke="${cStroke}" stroke-width="1" stroke-dasharray="4,3"/><line x1="${pts.B.x}" y1="${pts.B.y}" x2="${pts.D.x}" y2="${pts.D.y}" stroke="${cStroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
+  } else if(kind==='rectangle'){
+    extra=rightAngle(pts.A,pts.D,pts.B)+rightAngle(pts.B,pts.A,pts.C)+rightAngle(pts.C,pts.B,pts.D)+rightAngle(pts.D,pts.C,pts.A);
+    diag=`<line x1="${pts.A.x}" y1="${pts.A.y}" x2="${pts.C.x}" y2="${pts.C.y}" stroke="${cStroke}" stroke-width="1" stroke-dasharray="4,3"/><line x1="${pts.B.x}" y1="${pts.B.y}" x2="${pts.D.x}" y2="${pts.D.y}" stroke="${cStroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
+  } else if(kind==='carre'){
+    extra=rightAngle(pts.A,pts.D,pts.B)+rightAngle(pts.B,pts.A,pts.C)+rightAngle(pts.C,pts.B,pts.D)+rightAngle(pts.D,pts.C,pts.A)+tickAt(pts.A,pts.B,1)+tickAt(pts.B,pts.C,1)+tickAt(pts.C,pts.D,1)+tickAt(pts.D,pts.A,1);
+    diag=`<line x1="${pts.A.x}" y1="${pts.A.y}" x2="${pts.C.x}" y2="${pts.C.y}" stroke="${cStroke}" stroke-width="1" stroke-dasharray="4,3"/><line x1="${pts.B.x}" y1="${pts.B.y}" x2="${pts.D.x}" y2="${pts.D.y}" stroke="${cStroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
+  } else if(kind==='parallelogramme'){
+    extra=tickAt(pts.A,pts.B,1)+tickAt(pts.C,pts.D,1)+tickAt(pts.B,pts.C,2)+tickAt(pts.D,pts.A,2);
+  } else {
+    diag=`<line x1="${pts.A.x}" y1="${pts.A.y}" x2="${pts.C.x}" y2="${pts.C.y}" stroke="${cStroke}" stroke-width="1" stroke-dasharray="4,3"/><line x1="${pts.B.x}" y1="${pts.B.y}" x2="${pts.D.x}" y2="${pts.D.y}" stroke="${cStroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
+  }
+  const cxc=(pts.A.x+pts.B.x+pts.C.x+pts.D.x)/4, cyc=(pts.A.y+pts.B.y+pts.C.y+pts.D.y)/4;
+  const labels = order.map(k=>{
+    const p=pts[k]; const dx=p.x-cxc, dy=p.y-cyc; const len=Math.hypot(dx,dy)||1;
+    const ox=dx/len*22, oy=dy/len*22;
+    const anchor = ox>5?'start':ox<-5?'end':'middle';
+    return `<text x="${(p.x+ox).toFixed(1)}" y="${(p.y+oy+5).toFixed(1)}" text-anchor="${anchor}" font-size="16" fill="var(--svg-text)" font-weight="700" font-family="sans-serif">${k}</text>`;
+  }).join('');
+  return `<svg width="100%" viewBox="0 0 300 240" style="max-width:300px">
+    <polygon points="${poly}" fill="none" stroke="${cStroke}" stroke-width="2"/>
+    ${diag}${extra}${labels}
+  </svg>`;
+}
+
+// SVG triangle avec hauteur (question "quel calcul donne l'aire ?")
+function svgFractionCercle(num, den){
+  const cx=140, cy=120, r=95;
+  const cStroke='var(--svg-stroke)';
+  const cFill='var(--accent2)';
+  const toRad=a=>a*Math.PI/180;
+  let paths='';
+  for(let i=0;i<den;i++){
+    const startA=-90+i*360/den, endA=-90+(i+1)*360/den;
+    const x1=cx+r*Math.cos(toRad(startA)), y1=cy+r*Math.sin(toRad(startA));
+    const x2=cx+r*Math.cos(toRad(endA)), y2=cy+r*Math.sin(toRad(endA));
+    const large=(360/den)>180?1:0;
+    const filled=i<num;
+    paths+=`<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${large} 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${filled?cFill:'none'}" fill-opacity="${filled?0.55:1}" stroke="${cStroke}" stroke-width="1.5"/>`;
+  }
+  return `<svg width="100%" viewBox="0 0 280 240" style="max-width:260px">${paths}</svg>`;
+}
+
+// Fraction sous forme de rectangle (ou carré) partagé en grille de cols×rows parts égales, num parts coloriées
+function svgFractionRectangle(num, den, cols, rows){
+  const W=260,H=140, x0=20,y0=40;
+  const cw=(W-2*x0)/cols, ch=(H-2*(y0-20))/rows;
+  const cStroke='var(--svg-stroke)';
+  const cFill='var(--accent2)';
+  let cells='';
+  let count=0;
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const filled=count<num;
+      const x=x0+c*cw, y=(y0-20)+r*ch;
+      cells+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${cw.toFixed(1)}" height="${ch.toFixed(1)}" fill="${filled?cFill:'none'}" fill-opacity="${filled?0.55:1}" stroke="${cStroke}" stroke-width="1.5"/>`;
+      count++;
+    }
+  }
+  return `<svg width="100%" viewBox="0 0 ${W} ${H+20}" style="max-width:300px">${cells}</svg>`;
+}
+
+// Demi-droite graduée avec points à repérer
+function svgDemiDroiteGraduee(maxVal, step, points){
+  const W=420,H=110, x0=30, x1=W-20, y=60;
+  const scale=(x1-x0)/maxVal;
+  const cStroke='var(--svg-stroke)';
+  let ticks='';
+  for(let v=0;v<=maxVal+1e-9;v+=step){
+    const x=x0+v*scale;
+    ticks+=`<line x1="${x.toFixed(1)}" y1="${y-6}" x2="${x.toFixed(1)}" y2="${y+6}" stroke="${cStroke}" stroke-width="1.5"/><text x="${x.toFixed(1)}" y="${y+26}" text-anchor="middle" font-size="12" fill="var(--svg-text)" font-family="sans-serif">${nb(v)}</text>`;
+  }
+  let pts='';
+  points.forEach(p=>{
+    const x=x0+p.val*scale;
+    pts+=`<circle cx="${x.toFixed(1)}" cy="${y}" r="4.5" fill="var(--red)"/><text x="${x.toFixed(1)}" y="${y-14}" text-anchor="middle" font-size="14" font-weight="700" fill="var(--red)" font-family="sans-serif">${p.label}</text>`;
+  });
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="max-width:420px">
+    <line x1="${x0}" y1="${y}" x2="${x1+14}" y2="${y}" stroke="${cStroke}" stroke-width="1.5" marker-end="url(#arr)"/>
+    ${ticks}${pts}
+  </svg>`;
+}
+
+// Angle dessiné à partir de son sommet, pour estimer droit/aigu/obtus
+function svgAngleDraw(deg, lA, lO, lB){
+  const cStroke='var(--svg-stroke)';
+  const Ox=60, Oy=190, len=170;
+  const toRad=a=>a*Math.PI/180;
+  const Ax=Ox+len, Ay=Oy;
+  const Bx=Ox+len*Math.cos(toRad(deg)), By=Oy-len*Math.sin(toRad(deg));
+  const arcR=34;
+  const arcX=Ox+arcR, arcY=Oy;
+  const arcEx=Ox+arcR*Math.cos(toRad(deg)), arcEy=Oy-arcR*Math.sin(toRad(deg));
+  const large=deg>180?1:0;
+  const rightMark = Math.abs(deg-90)<0.01
+    ? `<polyline points="${(Ox+16).toFixed(1)},${Oy} ${(Ox+16).toFixed(1)},${(Oy-16).toFixed(1)} ${Ox},${(Oy-16).toFixed(1)}" fill="none" stroke="${cStroke}" stroke-width="1.5"/>`
+    : `<path d="M${arcX.toFixed(1)},${arcY.toFixed(1)} A${arcR},${arcR} 0 ${large} 0 ${arcEx.toFixed(1)},${arcEy.toFixed(1)}" fill="none" stroke="${cStroke}" stroke-width="1.5"/>`;
+  return `<svg width="100%" viewBox="0 0 280 220" style="max-width:280px">
+    <line x1="${Ox}" y1="${Oy}" x2="${Ax}" y2="${Ay}" stroke="${cStroke}" stroke-width="2"/>
+    <line x1="${Ox}" y1="${Oy}" x2="${Bx.toFixed(1)}" y2="${By.toFixed(1)}" stroke="${cStroke}" stroke-width="2"/>
+    ${rightMark}
+    <text x="${(Ax+8).toFixed(1)}" y="${(Ay+4).toFixed(1)}" font-size="14" font-weight="700" fill="var(--svg-text)" font-family="sans-serif">${lA}</text>
+    <text x="${(Ox-16).toFixed(1)}" y="${(Oy+6).toFixed(1)}" text-anchor="end" font-size="14" font-weight="700" fill="var(--svg-text)" font-family="sans-serif">${lO}</text>
+    <text x="${(Bx-8).toFixed(1)}" y="${(By-8).toFixed(1)}" text-anchor="end" font-size="14" font-weight="700" fill="var(--svg-text)" font-family="sans-serif">${lB}</text>
+  </svg>`;
+}
+
+// Triangle codé (isocèle / équilatéral / rectangle / quelconque)
+function svgLigneNotation(kind, labels){
+  // Pas de flèche (qui évoquerait un vecteur, hors-programme en 6e) : le trait se distingue
+  // uniquement par sa longueur, en dépassant ou non les points A et B.
+  const [lA,lB]=labels||['A','B'];
+  const cStroke='var(--svg-stroke)';
+  const Ax=60, Ay=110, Bx=260, By=110;
+  let line='';
+  if(kind==='droite'){
+    line=`<line x1="15" y1="${Ay}" x2="305" y2="${By}" stroke="${cStroke}" stroke-width="2"/>`;
+  } else if(kind==='demidroite'){
+    line=`<line x1="${Ax}" y1="${Ay}" x2="305" y2="${By}" stroke="${cStroke}" stroke-width="2"/>`;
+  } else {
+    line=`<line x1="${Ax}" y1="${Ay}" x2="${Bx}" y2="${By}" stroke="${cStroke}" stroke-width="2"/>`;
+  }
+  return `<svg width="100%" viewBox="0 0 320 160" style="max-width:320px">
+    ${line}
+    <circle cx="${Ax}" cy="${Ay}" r="3.5" fill="var(--svg-point)"/>
+    <circle cx="${Bx}" cy="${By}" r="3.5" fill="var(--svg-point)"/>
+    <text x="${Ax}" y="${Ay-14}" text-anchor="middle" font-size="15" font-weight="700" fill="var(--svg-text)" font-family="sans-serif">${lA}</text>
+    <text x="${Bx}" y="${By-14}" text-anchor="middle" font-size="15" font-weight="700" fill="var(--svg-text)" font-family="sans-serif">${lB}</text>
+  </svg>`;
+}
+
+// Segment [AB] avec une droite tracée : médiatrice correcte, ou piège (décalée / non perpendiculaire)
+function svgMediatriceCheck(kind, labels){
+  const [lA,lB]=labels||['A','B'];
+  const cStroke='var(--svg-stroke)';
+  const cOrange='var(--orange)';
+  const Ax=50, Ay=140, Bx=270, By=140;
+  const midX=(Ax+Bx)/2;
+  let d;
+  if(kind==='correcte'){
+    d=`<line x1="${midX}" y1="30" x2="${midX}" y2="250" stroke="${cOrange}" stroke-width="2.5"/>`;
+  } else if(kind==='decalee'){
+    d=`<line x1="${midX+40}" y1="30" x2="${midX+40}" y2="250" stroke="${cOrange}" stroke-width="2.5"/>`;
+  } else {
+    d=`<line x1="${midX-40}" y1="30" x2="${midX+50}" y2="250" stroke="${cOrange}" stroke-width="2.5"/>`;
+  }
+  return `<svg width="100%" viewBox="0 0 320 280" style="max-width:300px">
+    ${d}
+    <line x1="${Ax}" y1="${Ay}" x2="${Bx}" y2="${By}" stroke="${cStroke}" stroke-width="2.5"/>
+    <circle cx="${Ax}" cy="${Ay}" r="4" fill="var(--svg-point)"/>
+    <circle cx="${Bx}" cy="${By}" r="4" fill="var(--svg-point)"/>
+    <text x="${Ax}" y="${Ay+22}" text-anchor="middle" font-size="15" font-weight="700" fill="var(--svg-text)" font-family="sans-serif">${lA}</text>
+    <text x="${Bx}" y="${By+22}" text-anchor="middle" font-size="15" font-weight="700" fill="var(--svg-text)" font-family="sans-serif">${lB}</text>
+  </svg>`;
+}
+
+// Figure simple avec une droite en pointillés : est-ce un axe de symétrie ?
+function svgAxeSymetrieCheck(shape, axis){
+  const cStroke='var(--svg-stroke)';
+  const cOrange='var(--orange)';
+  const shapes={
+    triangleIsocele:`<polygon points="150,30 60,210 240,210" fill="none" stroke="${cStroke}" stroke-width="2"/>`,
+    triangleQuelconque:`<polygon points="90,30 50,210 250,180" fill="none" stroke="${cStroke}" stroke-width="2"/>`,
+    losange:`<polygon points="150,20 230,120 150,220 70,120" fill="none" stroke="${cStroke}" stroke-width="2"/>`,
+    trapezeQuelconque:`<polygon points="90,40 210,40 260,200 40,200" fill="none" stroke="${cStroke}" stroke-width="2"/>`,
+    papillon:`<polygon points="150,40 90,210 150,150 210,210" fill="none" stroke="${cStroke}" stroke-width="2"/>`,
+    carre:`<polygon points="80,50 220,50 220,190 80,190" fill="none" stroke="${cStroke}" stroke-width="2"/>`,
+    rectangle:`<polygon points="60,70 240,70 240,170 60,170" fill="none" stroke="${cStroke}" stroke-width="2"/>`,
+    pentagoneRegulier:`<polygon points="150,30 245,99 209,211 91,211 55,99" fill="none" stroke="${cStroke}" stroke-width="2"/>`,
+  };
+  const axes={
+    vertical:`<line x1="150" y1="10" x2="150" y2="230" stroke="${cOrange}" stroke-width="2" stroke-dasharray="6,4"/>`,
+    horizontal:`<line x1="20" y1="120" x2="280" y2="120" stroke="${cOrange}" stroke-width="2" stroke-dasharray="6,4"/>`,
+    oblique:`<line x1="60" y1="230" x2="240" y2="10" stroke="${cOrange}" stroke-width="2" stroke-dasharray="6,4"/>`,
+  };
+  return `<svg width="100%" viewBox="0 0 300 240" style="max-width:280px">${shapes[shape]}${axes[axis]}</svg>`;
+}
+
+// Grille avec un point et un axe de symétrie tracé (construire / lire le symétrique)
+function svgGrilleAxiale(points, axisType, axisPos, unite=30){
+  const W=340,H=280, ox=170, oy=140;
+  const cBorder='var(--border)';
+  const cStroke='var(--svg-stroke)';
+  const cOrange='var(--orange)';
+  let grid='';
+  for(let i=-5;i<=5;i++){
+    grid+=`<line x1="${ox+i*unite}" y1="10" x2="${ox+i*unite}" y2="${H-10}" stroke="${cBorder}" stroke-width="0.5"/>`;
+    grid+=`<line x1="10" y1="${oy+i*unite}" x2="${W-10}" y2="${oy+i*unite}" stroke="${cBorder}" stroke-width="0.5"/>`;
+  }
+  const axisLine = axisType==='vertical'
+    ? `<line x1="${ox+axisPos*unite}" y1="10" x2="${ox+axisPos*unite}" y2="${H-10}" stroke="${cOrange}" stroke-width="2.5"/>`
+    : `<line x1="10" y1="${oy-axisPos*unite}" x2="${W-10}" y2="${oy-axisPos*unite}" stroke="${cOrange}" stroke-width="2.5"/>`;
+  let pts='';
+  points.forEach(p=>{
+    const px=ox+p.x*unite, py=oy-p.y*unite;
+    const color=p.color||'var(--svg-point)';
+    pts+=`<circle cx="${px}" cy="${py}" r="5" fill="${color}"/><text x="${px+10}" y="${py-8}" font-size="14" font-weight="700" fill="${color}" font-family="sans-serif">${p.label}</text>`;
+  });
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="max-width:340px">
+    ${grid}${axisLine}${pts}
+  </svg>`;
+}
+
+// Petite figure (motif de quelques carreaux) à gauche d'un axe, et 3 propositions A/B/C à droite
+// (une seule est le véritable symétrique par réflexion)
+function svgFigureSymetrieQCM(cells, boxCols, boxRows, candidates){
+  const s=30;
+  const cStroke='var(--svg-stroke)';
+  const cFill='var(--accent2)';
+  const cOrange='var(--orange)';
+  function grid(cellsList, ox, oy){
+    let out='';
+    for(let r=0;r<boxRows;r++){
+      for(let c=0;c<boxCols;c++){
+        const filled=cellsList.some(([cc,rr])=>cc===c&&rr===r);
+        out+=`<rect x="${ox+c*s}" y="${oy+r*s}" width="${s}" height="${s}" fill="${filled?cFill:'none'}" fill-opacity="${filled?0.55:1}" stroke="${cStroke}" stroke-width="1.3"/>`;
+      }
+    }
+    return out;
+  }
+  const boxW=boxCols*s, boxH=boxRows*s;
+  const gapY=26;
+  const totalCandH = candidates.length*boxH + (candidates.length-1)*gapY;
+  const H = Math.max(boxH, totalCandH) + 50;
+  const origX=20, origY=(H-boxH)/2;
+  const axisX=origX+boxW+40;
+  const candX=axisX+40;
+  const letters=['A','B','C'];
+  let candSvg='';
+  const candStartY=(H-totalCandH)/2;
+  candidates.forEach((cand,i)=>{
+    const cy=candStartY+i*(boxH+gapY);
+    candSvg+=`<text x="${candX}" y="${cy-8}" font-size="14" font-weight="700" fill="var(--svg-text)" font-family="sans-serif">${letters[i]}</text>`;
+    candSvg+=grid(cand.cells, candX, cy);
+  });
+  const W=candX+boxW+20;
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="max-width:320px">
+    <line x1="${axisX}" y1="10" x2="${axisX}" y2="${H-10}" stroke="${cOrange}" stroke-width="2.5" stroke-dasharray="6,4"/>
+    ${grid(cells, origX, origY)}
+    ${candSvg}
+  </svg>`;
+}
+
+// Empilement de cubes en perspective (quelques configurations prédéfinies)
+function svgCubesEmpilement(config){
+  const cStroke='var(--svg-stroke)';
+  const cTop='var(--surface2)';
+  const cSide='var(--border)';
+  function cube(x,y){
+    const w=40,h=40,d=18;
+    return `<polygon points="${x},${y+d} ${x+w},${y+d} ${x+w},${y+d+h} ${x},${y+d+h}" fill="var(--card)" stroke="${cStroke}" stroke-width="1.2"/>
+      <polygon points="${x},${y+d} ${x+d*0.8},${y} ${x+w+d*0.8},${y} ${x+w},${y+d}" fill="${cTop}" stroke="${cStroke}" stroke-width="1.2"/>
+      <polygon points="${x+w},${y+d} ${x+w+d*0.8},${y} ${x+w+d*0.8},${y+h} ${x+w},${y+d+h}" fill="${cSide}" stroke="${cStroke}" stroke-width="1.2"/>`;
+  }
+  let shapes='';
+  let maxCol=0;
+  config.forEach(([col,row])=>{ shapes+=cube(30+col*44, 140-row*40); if(col>maxCol) maxCol=col; });
+  const groundY=198;
+  const groundLine=`<line x1="20" y1="${groundY}" x2="${30+maxCol*44+40+20}" y2="${groundY}" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="5,4"/>`;
+  return `<svg width="100%" viewBox="0 0 320 220" style="max-width:300px">${groundLine}${shapes}</svg>`;
+}
+
+// Droite graduée avec négatifs (lecture / placement de relatifs)
+function svgBarChart(cats, yMax, yStep, unit){
+  const W=380,H=240, padL=50,padB=36,padT=16;
+  const plotW=W-padL-20, plotH=H-padT-padB;
+  const bw=plotW/cats.length*0.6, gap=plotW/cats.length;
+  const cStroke='var(--svg-stroke)';
+  let bars='', ticksY='';
+  for(let v=0;v<=yMax+1e-9;v+=yStep){
+    const y=padT+plotH-(v/yMax)*plotH;
+    ticksY+=`<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W-20}" y2="${y.toFixed(1)}" stroke="var(--border)" stroke-width="0.5"/><text x="${padL-8}" y="${(y+4).toFixed(1)}" text-anchor="end" font-size="12" fill="var(--svg-text)" font-family="sans-serif">${nb(v)}</text>`;
+  }
+  cats.forEach((c,i)=>{
+    const x=padL+i*gap+(gap-bw)/2;
+    const barH=(c.val/yMax)*plotH;
+    const y=padT+plotH-barH;
+    bars+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${barH.toFixed(1)}" fill="var(--accent2)" fill-opacity="0.6" stroke="var(--accent2)" stroke-width="1.5"/>`;
+    bars+=`<text x="${(x+bw/2).toFixed(1)}" y="${H-padB+18}" text-anchor="middle" font-size="12" fill="var(--svg-text)" font-family="sans-serif">${c.label}</text>`;
+  });
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="max-width:380px">
+    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="${cStroke}" stroke-width="1.5"/>
+    <line x1="${padL}" y1="${H-padB}" x2="${W-20}" y2="${H-padB}" stroke="${cStroke}" stroke-width="1.5"/>
+    ${ticksY}${bars}
+  </svg>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// PYTHAGORE : figures et générateurs (théorème et réciproque)
+// ═══════════════════════════════════════════════════════════
+// Texte SVG centré verticalement sur y (le baseline est décalé en conséquence).
+
+// Correction : doublons de questions
+const SUPERSCRIPT_MAP={'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9','⁻':'-'};
+function numberSignature(str){
+  const norm=String(str||'').replace(/<[^>]+>/g,' ').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]/g,ch=>SUPERSCRIPT_MAP[ch]);
+  const nums=norm.match(/-?\d+(?:[.,]\d+)?/g)||[];
+  return nums.map(n=>n.replace(',','.')).sort().join(',');
+}
+function questionDedupeKey(gen,q){
+  if(q.dedupeKey) return gen.theme+'|'+q.dedupeKey;
+  const combined=q.text+(q.choices?(' '+q.choices.join(' ')):'');
+  const nums=numberSignature(combined);
+  if(nums) return gen.theme+'|'+nums;
+  return gen.theme+'|'+q.text+(q.choices?('|'+q.choices.join('|')):'');
+}
+
+// Thèmes du niveau et libellés de sous-thèmes (prévus pour un futur mode détaillé)
+const THEMES = [
+  "Nombres & calculs",
+  "Fractions & décimaux",
+  "Grandeurs, périmètres & aires",
+  "Figures, angles & notations",
+  "Symétrie axiale",
+  "Proportionnalité",
+  "Statistiques",
+  "Solides & volumes",
+  "Programmation"
+];
+const SUBTHEME_LABELS = {
+  "Nombres & calculs": [
+    "Tables de multiplication et d'addition",
+    "Multiplier ou diviser par 10, 100, 1000",
+    "Calcul mental sur des décimaux simples",
+    "Calcul mental avec plusieurs opérations (entiers)",
+    "Compléter à 100, à 1000, ou à l'unité",
+    "Double ou moitié d'un nombre",
+    "Multiplier par 4, 5, 8, 9 ou 11 (astuce)",
+    "Additionner ou soustraire un nombre finissant par 8 ou 9",
+    "Priorité de la multiplication ; somme ou produit",
+    "Rang d'un chiffre dans un nombre"
+  ],
+  "Fractions & décimaux": [
+    "Fraction simple et écriture décimale",
+    "Fraction représentée par un disque",
+    "Fraction représentée par un rectangle",
+    "Décomposer une fraction en somme de fractions",
+    "Décomposer une fraction en entier + fraction",
+    "Abscisse d'un point sur une demi-droite graduée"
+  ],
+  "Grandeurs, périmètres & aires": [
+    "Convertir des longueurs",
+    "Convertir des masses",
+    "Calculer une durée",
+    "Périmètre d'un rectangle",
+    "Périmètre d'un carré",
+    "Périmètre d'un triangle",
+    "Périmètre ou aire d'un disque",
+    "Aire d'un rectangle",
+    "Aire d'un carré",
+    "Aire d'un triangle"
+  ],
+  "Figures, angles & notations": [
+    "Reconnaître une figure usuelle (codages)",
+    "Angle droit, aigu ou obtus",
+    "Notations : droite, segment, demi-droite",
+    "Compléter une propriété (parallèles/perpendiculaires)",
+    "Médiatrice comme axe de symétrie",
+    "Inégalité triangulaire"
+  ]
+};
+
+// Générateurs de questions (même format que la console profs)
+const GENERATORS = [
+
+  // ── NOMBRES & CALCULS ──────────────────────────────
+  { theme:"Nombres & calculs", generate:()=>{
+    const variants=[
+      ()=>{ const a=rnd(2,9), b=rnd(2,9); return {text:`Calculez ${a} × ${b}.`, answer:`${a*b}`, explication:`${a} × ${b} = <strong>${a*b}</strong>.`}; },
+      ()=>{ const a=rnd(6,15), b=rnd(6,15); return {text:`Calculez ${a} + ${b}.`, answer:`${a+b}`, explication:`${a} + ${b} = <strong>${a+b}</strong>.`}; },
+    ];
+    return {...pick(variants)(), type:'input'};
+  }},
+
+  { theme:"Nombres & calculs", generate:()=>{
+    const n=pick([2.5,3,4.6,7,0.8,12,25,1.4]);
+    const p=pick([10,100,1000]);
+    const rangs = p===10?'1 rang':p===100?'2 rangs':'3 rangs';
+    const variants=[
+      {text:`Calculez ${nb(n)} × ${p}.`, answer:nb(n*p), explication:`Multiplier par ${p}, c'est décaler la virgule de ${rangs} vers la droite : ${nb(n)} × ${p} = <strong>${nb(n*p)}</strong>.`},
+      {text:`Calculez ${nb(n)} ÷ ${p}.`, answer:nb(n/p), explication:`Diviser par ${p}, c'est décaler la virgule de ${rangs} vers la gauche : ${nb(n)} ÷ ${p} = <strong>${nb(n/p)}</strong>.`},
+    ];
+    return {...pick(variants), type:'input'};
+  }},
+
+  { theme:"Nombres & calculs", generate:()=>{
+    const variants=[
+      ()=>{ const a=pick([1.2,2.5,3.5,4.2,0.6]); const b=pick([2,3,4]); return {text:`Calculez ${nb(a)} × ${b}.`, answer:nb(a*b), explication:`${nb(a)} × ${b} = <strong>${nb(a*b)}</strong>.`}; },
+      ()=>{ const a=pick([1.2,2.4,3.6,0.8,1.5]); const b=pick([0.8,1.6,0.4,2.2,0.5]); return {text:`Calculez ${nb(a)} + ${nb(b)}.`, answer:nb(a+b), explication:`${nb(a)} + ${nb(b)} = <strong>${nb(a+b)}</strong>.`}; },
+      ()=>{ const a=pick([3.5,4.2,5.6,6.8]); const b=pick([1.2,2.3,0.6,1.8]); return {text:`Calculez ${nb(a)} − ${nb(b)}.`, answer:nb(a-b), explication:`${nb(a)} − ${nb(b)} = <strong>${nb(a-b)}</strong>.`}; },
+    ];
+    return {...pick(variants)(), type:'input'};
+  }},
+
+  { theme:"Nombres & calculs", generate:()=>{
+    const variants=[
+      ()=>{ const a=rnd(2,9), b=rnd(2,9), c=rnd(2,9); const res=a+b*c; return {text:`Calculez ${a} + ${b} × ${c}.`, answer:`${res}`, explication:`On effectue d'abord la multiplication : ${b} × ${c} = ${b*c}. Puis l'addition : ${a} + ${b*c} = <strong>${res}</strong>.`}; },
+      ()=>{ const b=rnd(2,6), c=rnd(2,6), a=rnd(Math.max(20,b*c+1),40); const res=a-b*c; return {text:`Calculez ${a} − ${b} × ${c}.`, answer:`${res}`, explication:`On effectue d'abord la multiplication : ${b} × ${c} = ${b*c}. Puis la soustraction : ${a} − ${b*c} = <strong>${res}</strong>.`}; },
+      ()=>{ const a=rnd(2,9), b=rnd(2,9), c=rnd(2,20); const res=a*b+c; return {text:`Calculez ${a} × ${b} + ${c}.`, answer:`${res}`, explication:`On effectue d'abord la multiplication : ${a} × ${b} = ${a*b}. Puis l'addition : ${a*b} + ${c} = <strong>${res}</strong>.`}; },
+    ];
+    return {...pick(variants)(), type:'input'};
+  }},
+
+  { theme:"Nombres & calculs", generate:()=>{
+    const variants=[
+      ()=>{ const n=rnd(5,95); return {text:`Combien faut-il ajouter à ${n} pour obtenir 100 ?`, answer:`${100-n}`, explication:`${n} + <strong>${100-n}</strong> = 100.`}; },
+      ()=>{ const n=rnd(100,950); return {text:`Combien faut-il ajouter à ${n} pour obtenir 1000 ?`, answer:`${1000-n}`, explication:`${n} + <strong>${1000-n}</strong> = 1000.`}; },
+      ()=>{ const n=pick([0.1,0.2,0.3,0.4,0.6,0.7,0.8,0.9]); const r=Math.round((1-n)*10)/10; return {text:`Combien faut-il ajouter à ${nb(n)} pour obtenir 1 ?`, answer:nb(r), explication:`${nb(n)} + <strong>${nb(r)}</strong> = 1.`}; },
+    ];
+    return {...pick(variants)(), type:'input'};
+  }},
+
+  { theme:"Nombres & calculs", generate:()=>{
+    const n=pick([6,8,12,14,16,18,22,24,26,30,34,36]);
+    const variants=[
+      {text:`Quel est le double de ${n} ?`, answer:`${n*2}`, explication:`Le double de ${n}, c'est ${n} × 2 = <strong>${n*2}</strong>.`},
+      {text:`Quelle est la moitié de ${n} ?`, answer:`${n/2}`, explication:`La moitié de ${n}, c'est ${n} ÷ 2 = <strong>${n/2}</strong>.`},
+    ];
+    return {...pick(variants), type:'input'};
+  }},
+
+  { theme:"Nombres & calculs", generate:()=>{
+    const n=rnd(6,45);
+    const variants=[
+      {text:`Calculez ${n} × 9.`, answer:`${n*9}`, explication:`Astuce : multiplier par 9, c'est multiplier par 10 puis retirer le nombre une fois. ${n} × 9 = ${n} × 10 − ${n} = ${n*10} − ${n} = <strong>${n*9}</strong>.`},
+      {text:`Calculez ${n} × 11.`, answer:`${n*11}`, explication:`Astuce : multiplier par 11, c'est multiplier par 10 puis ajouter le nombre une fois. ${n} × 11 = ${n} × 10 + ${n} = ${n*10} + ${n} = <strong>${n*11}</strong>.`},
+      {text:`Calculez ${n} × 4.`, answer:`${n*4}`, explication:`Astuce : multiplier par 4, c'est doubler deux fois. ${n} × 4 = (${n} × 2) × 2 = ${n*2} × 2 = <strong>${n*4}</strong>.`},
+      {text:`Calculez ${n} × 8.`, answer:`${n*8}`, explication:`Astuce : multiplier par 8, c'est doubler trois fois. ${n} × 8 = ${n} × 2 × 2 × 2 = <strong>${n*8}</strong>.`},
+      {text:`Calculez ${n} × 5.`, answer:`${n*5}`, explication:`Astuce : multiplier par 5, c'est multiplier par 10 puis prendre la moitié. ${n} × 5 = (${n} × 10) ÷ 2 = ${n*10} ÷ 2 = <strong>${n*5}</strong>.`},
+    ];
+    return {...pick(variants), type:'input'};
+  }},
+
+  { theme:"Nombres & calculs", generate:()=>{
+    const isPlus=Math.random()<0.5;
+    const n=isPlus?rnd(20,80):rnd(41,80);
+    const k=pick([8,9,18,19,28,29,38,39]);
+    const roundK=Math.ceil(k/10)*10;
+    const diff=roundK-k;
+    const res=isPlus?n+k:n-k;
+    const via=isPlus?n+roundK:n-roundK;
+    return {type:'input', text:`Calculez ${n} ${isPlus?'+':'−'} ${k}.`, answer:`${res}`,
+      explication:`Astuce : ${k} est proche de ${roundK}, donc on passe par ${via}. ${n} ${isPlus?'+':'−'} ${k} = ${n} ${isPlus?'+':'−'} ${roundK} ${isPlus?'−':'+'} ${diff} = ${via} ${isPlus?'−':'+'} ${diff} = <strong>${res}</strong>.`};
+  }},
+
+  { theme:"Nombres & calculs", generate:()=>{
+    const a=rnd(2,9), b=rnd(2,9), c=rnd(2,9);
+    const variants=[
+      ()=>{ const res=a+b*c; return {type:'input', text:`Calculez ${a} + ${b} × ${c}.`, answer:`${res}`, explication:`La multiplication est prioritaire sur l'addition : on calcule d'abord ${b} × ${c} = ${b*c}, puis ${a} + ${b*c} = <strong>${res}</strong>.`}; },
+      ()=>{ const options=[[`${a} × (${b} + ${c})`,'produit'],[`${a} × ${b} + ${c}`,'somme'],[`${a} + ${b} × ${c}`,'somme'],[`(${a} + ${b}) × ${c}`,'produit']];
+        const [text,type]=pick(options);
+        const choices=shuffle(['une somme','un produit']);
+        const correct=choices.indexOf(type==='somme'?'une somme':'un produit');
+        return {type:'qcm', text:`L'écriture ${text} est-elle une somme ou un produit ? (la dernière opération à effectuer donne la réponse)`, choices, correct,
+          explication:`La dernière opération à effectuer est ${type==='somme'?"une addition, donc c'est <strong>une somme</strong>":"une multiplication, donc c'est <strong>un produit</strong>"}.`}; },
+    ];
+    return pick(variants)();
+  }},
+
+  { theme:"Nombres & calculs", generate:()=>{
+    const entier=rnd(1,99); const d1=rnd(0,9), d2=rnd(0,9);
+    const nombre=`${entier},${d1}${d2}`;
+    const rEnt = String(entier).split('').reverse();
+    const rankNamesEnt=['unités','dizaines','centaines','milliers'];
+    const allRanks=[];
+    rEnt.forEach((d,i)=>{ if(rankNamesEnt[i]) allRanks.push({name:rankNamesEnt[i],digit:+d}); });
+    allRanks.push({name:'dixièmes',digit:d1});
+    allRanks.push({name:'centièmes',digit:d2});
+    const target=pick(allRanks);
+    return {type:'input', text:`Dans le nombre ${nombre}, quel est le chiffre des ${target.name} ?`, answer:`${target.digit}`,
+      explication:`Dans ${nombre}, le chiffre des ${target.name} est <strong>${target.digit}</strong>.`};
+  }},
+
+  // ── FRACTIONS & DÉCIMAUX ───────────────────────────
+  { theme:"Fractions & décimaux", generate:()=>{
+    const fracs=[{n:1,d:2,dec:'0,5'},{n:1,d:4,dec:'0,25'},{n:3,d:4,dec:'0,75'},{n:1,d:10,dec:'0,1'},{n:1,d:5,dec:'0,2'},{n:3,d:10,dec:'0,3'}];
+    const f=pick(fracs);
+    const toDec=Math.random()<0.5;
+    return toDec
+      ? {type:'input', text:`Donnez l'écriture décimale de ${frac(f.n,f.d)}.`, answer:f.dec, acceptedAnswers:[f.dec], explication:`${frac(f.n,f.d)} = ${f.n} ÷ ${f.d} = <strong>${f.dec}</strong>.`}
+      : {type:'input', text:`Écrivez ${f.dec} sous la forme d'une fraction simple.`, answer:`${f.n}/${f.d}`, acceptedAnswers:[`${f.n}/${f.d}`], explication:`${f.dec} = <strong>${f.n}/${f.d}</strong>.`};
+  }},
+
+  { theme:"Fractions & décimaux", generate:()=>{
+    const opts=[{num:1,den:4},{num:3,den:4},{num:1,den:3},{num:2,den:3},{num:1,den:2},{num:1,den:6},{num:5,den:6},{num:1,den:8},{num:3,den:8}];
+    const v=pick(opts);
+    const wrongs=shuffle(opts.filter(o=>!(o.num===v.num&&o.den===v.den))).slice(0,3);
+    const choices=shuffle([`${v.num}/${v.den}`,...wrongs.map(w=>`${w.num}/${w.den}`)]);
+    const correct=choices.indexOf(`${v.num}/${v.den}`);
+    return {type:'qcm', text:`Quelle fraction du disque est coloriée ?`, choices, correct,
+      explication:`Le disque est partagé en ${v.den} parts égales, dont ${v.num} sont coloriées : <strong>${v.num}/${v.den}</strong>.`,
+      figure:svgFractionCercle(v.num,v.den)};
+  }},
+
+  { theme:"Fractions & décimaux", generate:()=>{
+    const opts=[{num:2,den:5,cols:5,rows:1},{num:3,den:5,cols:5,rows:1},{num:1,den:6,cols:3,rows:2},{num:5,den:6,cols:3,rows:2},{num:3,den:8,cols:4,rows:2},{num:1,den:4,cols:4,rows:1},{num:3,den:4,cols:4,rows:1},{num:1,den:9,cols:3,rows:3},{num:4,den:9,cols:3,rows:3}];
+    const v=pick(opts);
+    const wrongs=shuffle(opts.filter(o=>!(o.num===v.num&&o.den===v.den))).slice(0,3);
+    const choices=shuffle([`${v.num}/${v.den}`,...wrongs.map(w=>`${w.num}/${w.den}`)]);
+    const correct=choices.indexOf(`${v.num}/${v.den}`);
+    return {type:'qcm', text:`Quelle fraction de ce rectangle est coloriée ?`, choices, correct,
+      explication:`Le rectangle est partagé en ${v.den} parts égales, dont ${v.num} sont coloriées : <strong>${v.num}/${v.den}</strong>.`,
+      figure:svgFractionRectangle(v.num,v.den,v.cols,v.rows)};
+  }},
+
+  { theme:"Fractions & décimaux", generate:()=>{
+    const d=pick([3,4,5]); const n=rnd(2,d);
+    const parts=Array(n).fill(`1/${d}`);
+    return {type:'input', text:`Écrivez ${frac(n,d)} comme une somme de fractions ayant toutes pour numérateur 1.`, answer:parts.join('+'),
+      acceptedAnswers:[parts.join('+'), parts.join(' + ')],
+      explication:`${frac(n,d)} = <strong>${parts.join(' + ')}</strong> (on répète ${n} fois ${frac(1,d)}).`};
+  }},
+
+  { theme:"Fractions & décimaux", generate:()=>{
+    const d=pick([2,3,4,5]); const entier=rnd(1,4); const reste=rnd(1,d-1);
+    const n=entier*d+reste;
+    return {type:'input', text:`Écrivez ${frac(n,d)} sous la forme d'un nombre entier plus une fraction inférieure à 1.`, answer:`${entier}+${reste}/${d}`,
+      acceptedAnswers:[`${entier}+${reste}/${d}`, `${entier} + ${reste}/${d}`],
+      explication:`${n} ÷ ${d} = ${entier} reste ${reste}, donc ${frac(n,d)} = <strong>${entier} + ${frac(reste,d)}</strong>.`};
+  }},
+
+  { theme:"Fractions & décimaux", generate:()=>{
+    const configs=[{max:5,step:1,val:pick([1,2,3,4])},{max:2,step:0.5,val:pick([0.5,1,1.5])},{max:1,step:0.25,val:pick([0.25,0.5,0.75])}];
+    const c=pick(configs);
+    const label=pick(['A','M','P']);
+    return {type:'input', text:`Sur la demi-droite graduée ci-dessous, quelle est l'abscisse du point ${label} ?`, answer:nb(c.val),
+      explication:`Le point ${label} est placé à <strong>${nb(c.val)}</strong> sur la demi-droite graduée.`,
+      figure:svgDemiDroiteGraduee(c.max,c.step,[{val:c.val,label}])};
+  }},
+
+  // ── GRANDEURS, PÉRIMÈTRES & AIRES ──────────────────
+  { theme:"Grandeurs, périmètres & aires", generate:()=>{
+    const units=[{from:'m',to:'cm',factor:100},{from:'cm',to:'mm',factor:10},{from:'km',to:'m',factor:1000},{from:'m',to:'mm',factor:1000}];
+    const u=pick(units); const n=pick([2,3,4,5,1.5,2.5]);
+    return {type:'input', text:`Convertissez ${nb(n)} ${u.from} en ${u.to}.`, answer:nb(n*u.factor),
+      explication:`1 ${u.from} = ${u.factor} ${u.to}, donc ${nb(n)} ${u.from} = ${nb(n)} × ${u.factor} = <strong>${nb(n*u.factor)} ${u.to}</strong>.`};
+  }},
+
+  { theme:"Grandeurs, périmètres & aires", generate:()=>{
+    const units=[{from:'kg',to:'g',factor:1000},{from:'g',to:'mg',factor:1000},{from:'t',to:'kg',factor:1000}];
+    const u=pick(units); const n=pick([2,3,4,0.5,1.5,2.5]);
+    return {type:'input', text:`Convertissez ${nb(n)} ${u.from} en ${u.to}.`, answer:nb(n*u.factor),
+      explication:`1 ${u.from} = ${u.factor} ${u.to}, donc ${nb(n)} ${u.from} = <strong>${nb(n*u.factor)} ${u.to}</strong>.`};
+  }},
+
+  { theme:"Grandeurs, périmètres & aires", generate:()=>{
+    const startH=rnd(7,11), startM=pick([0,10,15,20,30,40,45,50]);
+    const durMin=pick([15,20,25,30,35,40,45,50,55,65,75,90]);
+    const endTotal=startH*60+startM+durMin;
+    const endH=Math.floor(endTotal/60)%24, endM=endTotal%60;
+    const fmt=(h,m)=>`${h}h${m<10?'0'+m:m}`;
+    const h=Math.floor(durMin/60), m=durMin%60;
+    const durLabel = h>0 ? `${h}h${m>0?(m<10?'0'+m:m):''}` : `${m} min`;
+    return {type:'input', text:`Une activité commence à ${fmt(startH,startM)} et se termine à ${fmt(endH,endM)}. Quelle est sa durée ?`, answer:durLabel,
+      acceptedAnswers:[durLabel, `${durMin} min`],
+      explication:`De ${fmt(startH,startM)} à ${fmt(endH,endM)}, il s'écoule <strong>${durLabel}</strong>.`};
+  }},
+
+  { theme:"Grandeurs, périmètres & aires", generate:()=>{
+    const L=rnd(6,15), l=rnd(3,L-1);
+    return {type:'input', text:`Calculez le périmètre d'un rectangle de longueur ${L} cm et de largeur ${l} cm.`, answer:`${2*(L+l)}`,
+      explication:`Périmètre = 2 × (longueur + largeur) = 2 × (${L} + ${l}) = <strong>${2*(L+l)} cm</strong>.`};
+  }},
+
+  { theme:"Grandeurs, périmètres & aires", generate:()=>{
+    const c=rnd(3,15);
+    return {type:'input', text:`Calculez le périmètre d'un carré de côté ${c} cm.`, answer:`${4*c}`,
+      explication:`Périmètre = 4 × côté = 4 × ${c} = <strong>${4*c} cm</strong>.`};
+  }},
+
+  { theme:"Grandeurs, périmètres & aires", generate:()=>{
+    const a=rnd(3,10), b=rnd(3,10), c=rnd(3,10);
+    return {type:'input', text:`Un triangle a des côtés de ${a} cm, ${b} cm et ${c} cm. Calculez son périmètre.`, answer:`${a+b+c}`,
+      explication:`Périmètre = somme des trois côtés = ${a} + ${b} + ${c} = <strong>${a+b+c} cm</strong>.`};
+  }},
+
+  { theme:"Grandeurs, périmètres & aires", generate:()=>{
+    const r=pick([2,3,4,5]);
+    const perim=Math.round(2*3.14*r*100)/100, aire=Math.round(3.14*r*r*100)/100;
+    const variants=[
+      {text:`Calculez le périmètre d'un disque de rayon ${r} cm (π ≈ 3,14).`, answer:nb(perim), explication:`Périmètre = 2 × π × rayon = 2 × 3,14 × ${r} = <strong>${nb(perim)} cm</strong>.`},
+      {text:`Calculez l'aire d'un disque de rayon ${r} cm (π ≈ 3,14).`, answer:nb(aire), explication:`Aire = π × rayon² = 3,14 × ${r}² = 3,14 × ${r*r} = <strong>${nb(aire)} cm²</strong>.`},
+    ];
+    return {...pick(variants), type:'input'};
+  }},
+
+  { theme:"Grandeurs, périmètres & aires", generate:()=>{
+    const L=rnd(4,12), l=rnd(3,L-1);
+    return {type:'input', text:`Calculez l'aire d'un rectangle de longueur ${L} cm et de largeur ${l} cm.`, answer:`${L*l}`,
+      explication:`Aire = longueur × largeur = ${L} × ${l} = <strong>${L*l} cm²</strong>.`};
+  }},
+
+  { theme:"Grandeurs, périmètres & aires", generate:()=>{
+    const c=rnd(3,12);
+    return {type:'input', text:`Calculez l'aire d'un carré de côté ${c} cm.`, answer:`${c*c}`,
+      explication:`Aire = côté × côté = ${c} × ${c} = <strong>${c*c} cm²</strong>.`};
+  }},
+
+  { theme:"Grandeurs, périmètres & aires", generate:()=>{
+    const b=pick([4,6,8,10,12]), h=pick([3,5,7,9]);
+    const aire=b*h/2;
+    return {type:'input', text:`Calculez l'aire d'un triangle de base ${b} cm et de hauteur ${h} cm.`, answer:nb(aire),
+      explication:`Aire = (base × hauteur) ÷ 2 = (${b} × ${h}) ÷ 2 = <strong>${nb(aire)} cm²</strong>.`};
+  }},
+
+  // ── FIGURES, ANGLES & NOTATIONS ─────────────────────
+  { theme:"Figures, angles & notations", generate:()=>{
+    const allChoices=["Un losange","Un rectangle","Un carré","Un parallélogramme quelconque","Un quadrilatère quelconque"];
+    const kinds=[
+      {k:'losange',c:0},{k:'rectangle',c:1},{k:'carre',c:2},{k:'parallelogramme',c:3},{k:'quelconque',c:4},
+    ];
+    const v=pick(kinds);
+    return {type:'qcm', text:`D'après les codages de la figure ci-dessous, quelle est sa nature ?`, choices:allChoices, correct:v.c,
+      explication:`Les codages indiquent qu'il s'agit d'<strong>${allChoices[v.c].toLowerCase()}</strong>.`, figure:svgQuadrilatere(v.k)};
+  }},
+
+  { theme:"Figures, angles & notations", generate:()=>{
+    const deg=pick([15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120,130,140,150,160,165,170]);
+    const type = deg===90?'droit':deg<90?'aigu':'obtus';
+    const choices=shuffle(['aigu','droit','obtus']);
+    const correct=choices.indexOf(type);
+    const lets=pick([['A','O','B'],['M','S','N'],['C','I','D'],['P','K','Q'],['E','H','F']]);
+    return {type:'qcm', text:`Observez l'angle ${ang(lets[0],lets[1],lets[2])} ci-dessous. Est-il aigu, droit ou obtus ?`, choices, correct,
+      explication:`Un angle aigu mesure moins de 90°, un angle droit mesure 90°, un angle obtus mesure plus de 90°. Ici l'angle est <strong>${type}</strong>.`,
+      figure:svgAngleDraw(deg,lets[2],lets[1],lets[0])};
+  }},
+
+  { theme:"Figures, angles & notations", generate:()=>{
+    const kinds=[
+      {k:'droite',notations:(a,b)=>[`(${a}${b})`,`[${a}${b}]`,`[${a}${b})`,`${a}${b}`]},
+      {k:'segment',notations:(a,b)=>[`[${a}${b}]`,`(${a}${b})`,`[${a}${b})`,`${a}${b}`]},
+      {k:'demidroite',notations:(a,b)=>[`[${a}${b})`,`(${a}${b})`,`[${a}${b}]`,`${a}${b}`]},
+    ];
+    const letterPairs=[['A','B'],['C','D'],['M','N'],['P','Q'],['E','F'],['I','J']];
+    const [lA,lB]=pick(letterPairs);
+    const v=pick(kinds);
+    const notations=v.notations(lA,lB);
+    const names={droite:`la droite (${lA}${lB})`,segment:`le segment [${lA}${lB}]`,demidroite:`la demi-droite [${lA}${lB})`};
+    const correctNotation=notations[0];
+    const choices=shuffle(notations);
+    const correct=choices.indexOf(correctNotation);
+    return {type:'qcm', text:`Quelle notation correspond à la figure ci-dessous ?`, choices, correct,
+      explication:`La figure représente <strong>${names[v.k]}</strong>, qui se note <strong>${correctNotation}</strong>.`,
+      figure:svgLigneNotation(v.k,[lA,lB])};
+  }},
+
+  { theme:"Figures, angles & notations", generate:()=>{
+    const props=[
+      {text:`Si deux droites sont parallèles, toute droite perpendiculaire à l'une est ... à l'autre.`, choices:['parallèle','perpendiculaire','sécante mais pas perpendiculaire'], c:1,
+        explication:`Si deux droites sont parallèles, toute droite perpendiculaire à l'une est aussi <strong>perpendiculaire</strong> à l'autre.`},
+      {text:`Si deux droites sont parallèles à une même troisième droite, alors elles sont ... entre elles.`, choices:['perpendiculaires','sécantes','parallèles'], c:2,
+        explication:`Deux droites parallèles à une même troisième sont <strong>parallèles</strong> entre elles.`},
+      {text:`Si une droite est perpendiculaire à deux droites parallèles, elle est perpendiculaire à ... ces droites.`, choices:['une seule de','chacune de','aucune de'], c:1,
+        explication:`Une droite perpendiculaire à l'une de deux droites parallèles est perpendiculaire à <strong>chacune</strong> de ces droites.`},
+      {text:`Deux droites perpendiculaires à une même troisième droite sont ... entre elles.`, choices:['perpendiculaires','sécantes non perpendiculaires','parallèles'], c:2,
+        explication:`Deux droites perpendiculaires à une même troisième droite sont <strong>parallèles</strong> entre elles.`},
+      {text:`Si deux droites sont sécantes, elles ont ... point(s) commun(s).`, choices:['aucun','exactement un','une infinité'], c:1,
+        explication:`Deux droites sécantes se coupent en <strong>exactement un</strong> point.`},
+      {text:`Deux droites qui ne sont pas parallèles sont forcément ...`, choices:['perpendiculaires','sécantes','confondues'], c:1,
+        explication:`Deux droites non parallèles se coupent : elles sont <strong>sécantes</strong> (ce qui inclut le cas particulier où elles sont perpendiculaires).`},
+    ];
+    const v=pick(props);
+    const correctLabel=v.choices[v.c];
+    const choices=shuffle(v.choices); const correct=choices.indexOf(correctLabel);
+    return {type:'qcm', text:v.text, choices, correct, explication:v.explication};
+  }},
+
+  { theme:"Figures, angles & notations", generate:()=>{
+    const kinds=[{k:'correcte',ans:true},{k:'decalee',ans:false},{k:'oblique',ans:false}];
+    const letterPairs=[['A','B'],['C','D'],['M','N'],['P','Q'],['E','F']];
+    const [lA,lB]=pick(letterPairs);
+    const v=pick(kinds);
+    const choices=shuffle([`Oui, c'est la médiatrice de [${lA}${lB}]`,`Non, ce n'est pas la médiatrice de [${lA}${lB}]`]);
+    const correctLabel = v.ans ? `Oui, c'est la médiatrice de [${lA}${lB}]` : `Non, ce n'est pas la médiatrice de [${lA}${lB}]`;
+    const correct=choices.indexOf(correctLabel);
+    return {type:'qcm', text:`La droite tracée est-elle la médiatrice du segment [${lA}${lB}] ?`, choices, correct,
+      explication:v.ans
+        ? `La droite passe par le milieu de [${lA}${lB}] et lui est perpendiculaire : c'est bien <strong>la médiatrice</strong>, qui est aussi l'axe de symétrie du segment.`
+        : `La médiatrice de [${lA}${lB}] doit passer exactement par le milieu de [${lA}${lB}] et lui être perpendiculaire : ce n'est <strong>pas le cas ici</strong>.`,
+      figure:svgMediatriceCheck(v.k,[lA,lB])};
+  }},
+
+  { theme:"Figures, angles & notations", generate:()=>{
+    const a=rnd(2,14), b=rnd(2,14);
+    const makeValid=Math.random()<0.5;
+    const lo=Math.abs(a-b)+1, hi=a+b-1;
+    const c = makeValid ? (lo<=hi ? rnd(lo,hi) : a+b-1) : a+b+rnd(0,5);
+    const ok = c < a+b && a < b+c && b < a+c;
+    const choices=shuffle(['Oui, on peut le construire','Non, on ne peut pas le construire']);
+    const correctLabel = ok?'Oui, on peut le construire':'Non, on ne peut pas le construire';
+    const correct=choices.indexOf(correctLabel);
+    const maxSide=Math.max(a,b,c);
+    const others=a+b+c-maxSide;
+    return {type:'qcm', text:`Peut-on construire un triangle dont les côtés mesurent ${a} cm, ${b} cm et ${c} cm ?`, choices, correct,
+      explication:`Inégalité triangulaire : le plus grand côté (${maxSide} cm) doit être strictement inférieur à la somme des deux autres (${others} cm). ${maxSide} ${ok?'<':'≥'} ${others}, donc ${ok?"<strong>on peut construire ce triangle</strong>":"<strong>on ne peut pas construire ce triangle</strong>"}.`};
+  }},
+
+  // ── SYMÉTRIE AXIALE ─────────────────────────────────
+  { theme:"Symétrie axiale", generate:()=>{
+    const cases=[
+      {shape:'triangleIsocele',axis:'vertical',ans:true},
+      {shape:'triangleIsocele',axis:'horizontal',ans:false},
+      {shape:'triangleIsocele',axis:'oblique',ans:false},
+      {shape:'triangleQuelconque',axis:'vertical',ans:false},
+      {shape:'triangleQuelconque',axis:'oblique',ans:false},
+      {shape:'losange',axis:'vertical',ans:true},
+      {shape:'losange',axis:'horizontal',ans:true},
+      {shape:'losange',axis:'oblique',ans:false},
+      {shape:'trapezeQuelconque',axis:'vertical',ans:false},
+      {shape:'trapezeQuelconque',axis:'horizontal',ans:false},
+      {shape:'papillon',axis:'vertical',ans:true},
+      {shape:'papillon',axis:'horizontal',ans:false},
+      {shape:'carre',axis:'vertical',ans:true},
+      {shape:'carre',axis:'horizontal',ans:true},
+      {shape:'carre',axis:'oblique',ans:false},
+      {shape:'rectangle',axis:'vertical',ans:true},
+      {shape:'rectangle',axis:'horizontal',ans:true},
+      {shape:'rectangle',axis:'oblique',ans:false},
+      {shape:'pentagoneRegulier',axis:'vertical',ans:true},
+      {shape:'pentagoneRegulier',axis:'horizontal',ans:false},
+    ];
+    const v=pick(cases);
+    const choices=shuffle(['Oui','Non']);
+    const correct=choices.indexOf(v.ans?'Oui':'Non');
+    return {type:'qcm', text:`La droite en pointillés est-elle un axe de symétrie de la figure ?`, choices, correct,
+      explication:v.ans?`En pliant la figure le long de cette droite, les deux parties se superposent exactement : c'est bien <strong>un axe de symétrie</strong>.`:`En pliant la figure le long de cette droite, les deux parties ne se superposent pas : ce <strong>n'est pas un axe de symétrie</strong>.`,
+      figure:svgAxeSymetrieCheck(v.shape,v.axis)};
+  }},
+
+  { theme:"Symétrie axiale", generate:()=>{
+    const axisType=pick(['vertical','horizontal']);
+    const axisPos=pick([-1,0,0,0,1]);
+    const magLimit = axisPos===0 ? 4 : 2;
+    let px=rnd(1,magLimit)*pick([1,-1]), py=rnd(1,magLimit)*pick([1,-1]);
+    // M ne doit jamais tomber exactement sur l'axe (sinon son symétrique serait lui-même)
+    if(axisType==='vertical' && px===axisPos) px = px>0 ? px+1 : px-1;
+    if(axisType==='horizontal' && py===axisPos) py = py>0 ? py+1 : py-1;
+    const clamp=v=>Math.max(-4,Math.min(4,v));
+    const trueX = axisType==='vertical' ? clamp(2*axisPos-px) : px;
+    const trueY = axisType==='vertical' ? py : clamp(2*axisPos-py);
+    const seen=new Set([`${px},${py}`,`${trueX},${trueY}`]);
+    function tryAdd(x,y){ x=clamp(x); y=clamp(y); const k=`${x},${y}`; if(seen.has(k)) return null; seen.add(k); return {x,y}; }
+    const decoyDefs = [
+      {x:px,y:py},
+      axisType==='vertical' ? {x:px, y:clamp(2*axisPos-py)} : {x:clamp(2*axisPos-px), y:py},
+      axisType==='vertical' ? {x:trueX+(trueX>=axisPos?-1:1), y:trueY} : {x:trueX, y:trueY+(trueY>=axisPos?-1:1)},
+    ];
+    const decoys=[];
+    for(const d of decoyDefs){ if(decoys.length>=2) break; const c=tryAdd(d.x,d.y); if(c) decoys.push(c); }
+    while(decoys.length<2){ const c=tryAdd(rnd(-4,4),rnd(-4,4)); if(c) decoys.push(c); }
+    const sortedLetters=['A','B','C'];
+    const shuffled=shuffle([{x:trueX,y:trueY,isCorrect:true},...decoys]);
+    const points=shuffled.map((p,i)=>({...p,label:sortedLetters[i]}));
+    const correctLabel=points.find(p=>p.isCorrect).label;
+    const correct=sortedLetters.indexOf(correctLabel);
+    const figurePoints=[{x:px,y:py,label:'M',color:'var(--red)'},...points.map(p=>({x:p.x,y:p.y,label:p.label,color:'var(--accent2)'}))];
+    const dist = axisType==='vertical' ? Math.abs(px-axisPos) : Math.abs(py-axisPos);
+    const distanceDesc = axisType==='vertical'
+      ? `M est à ${dist} carreau${dist>1?'x':''} de l'axe, sur la même ligne. Son symétrique se trouve donc à ${dist} carreau${dist>1?'x':''} de l'autre côté de l'axe, sur cette même ligne`
+      : `M est à ${dist} carreau${dist>1?'x':''} de l'axe, sur la même colonne. Son symétrique se trouve donc à ${dist} carreau${dist>1?'x':''} de l'autre côté de l'axe, sur cette même colonne`;
+    return {type:'qcm', text:`Sur le quadrillage ci-dessous, quel est le symétrique du point M par rapport à la droite tracée (axe de symétrie) ?`,
+      choices:sortedLetters, correct,
+      explication:`Par symétrie axiale, un point et son symétrique sont à la même distance de l'axe, de part et d'autre de celui-ci. ${distanceDesc} : c'est le point <strong>${correctLabel}</strong>.`,
+      figure:svgGrilleAxiale(figurePoints,axisType,axisPos)};
+  }},
+
+  { theme:"Symétrie axiale", generate:()=>{
+    const figs=[
+      {name:'un carré', n:'4'},
+      {name:"un rectangle qui n'est pas un carré", n:'2'},
+      {name:'un triangle équilatéral', n:'3'},
+      {name:"un losange qui n'est pas un carré", n:'2'},
+      {name:"un triangle isocèle qui n'est pas équilatéral", n:'1'},
+      {name:'un cercle', n:'une infinité'},
+      {name:'un rectangle', n:'2'},
+      {name:'un triangle quelconque (sans côtés égaux)', n:'0'},
+    ];
+    const v=pick(figs);
+    const pool=['0','1','2','3','4','une infinité'];
+    const wrongPool=shuffle(pool.filter(x=>x!==v.n)).slice(0,3);
+    const choices=shuffle([v.n,...wrongPool]);
+    const correct=choices.indexOf(v.n);
+    return {type:'qcm', text:`Combien d'axes de symétrie possède ${v.name} ?`, choices, correct,
+      explication:`${v.name.charAt(0).toUpperCase()+v.name.slice(1)} possède ${v.n==='une infinité'?`<strong>une infinité</strong> d'axes`:`<strong>${v.n}</strong> axe${(v.n==='0'||v.n==='1')?'':'s'}`} de symétrie.`};
+  }},
+
+  { theme:"Symétrie axiale", generate:()=>{
+    const shapes=[
+      [[0,0],[1,0],[1,1]],
+      [[0,0],[0,1],[1,1]],
+      [[0,0],[1,0],[0,1]],
+      [[1,0],[0,1],[1,1]],
+    ];
+    const cells=pick(shapes);
+    const boxCols=2, boxRows=2;
+    const mirrored=cells.map(([c,r])=>[boxCols-1-c,r]);
+    const decoyNoMirror=cells.map(([c,r])=>[c,r]);
+    const decoyVertical=cells.map(([c,r])=>[c,boxRows-1-r]);
+    const key=arr=>arr.map(p=>p.join(',')).sort().join('|');
+    let options=[{cells:mirrored,isCorrect:true},{cells:decoyNoMirror,isCorrect:false},{cells:decoyVertical,isCorrect:false}];
+    options=options.filter((o,i,arr)=>arr.findIndex(o2=>key(o2.cells)===key(o.cells))===i);
+    while(options.length<3){
+      const dx=pick([-1,1]);
+      const extra=cells.map(([c,r])=>[Math.min(boxCols-1,Math.max(0,c+dx)),r]);
+      if(!options.some(o=>key(o.cells)===key(extra))) options.push({cells:extra,isCorrect:false});
+    }
+    const shuffled=shuffle(options);
+    const correctIdx=shuffled.findIndex(o=>o.isCorrect);
+    const letters=['A','B','C'];
+    return {type:'qcm', text:`La figure à gauche doit être reproduite par symétrie par rapport à la droite en pointillés (axe de symétrie). Laquelle des propositions A, B ou C est le bon symétrique ?`,
+      choices:letters, correct:correctIdx,
+      explication:`Pour construire le symétrique d'une figure par rapport à un axe, chaque carreau doit se retrouver à la même distance de l'axe, mais retourné de l'autre côté, comme dans un miroir. C'est la proposition <strong>${letters[correctIdx]}</strong>.`,
+      figure:svgFigureSymetrieQCM(cells,boxCols,boxRows,shuffled)};
+  }},
+
+  { theme:"Symétrie axiale", generate:()=>{
+    const verticalAxis=['A','H','I','M','O','T','U','V','W','X','Y'];
+    const horizontalOnly=['B','C','D','E','K'];
+    const noAxis=['F','G','J','L','N','P','Q','R','S','Z'];
+    const mode=pick(['vertical','none']);
+    let correct, wrongPool, question, explication;
+    if(mode==='vertical'){
+      correct=pick(verticalAxis);
+      wrongPool=shuffle([...horizontalOnly,...noAxis]).slice(0,3);
+      question=`Laquelle de ces lettres capitales a un axe de symétrie vertical (comme un miroir vertical) ?`;
+      explication=`La lettre <strong>${correct}</strong> reste identique si on la reflète par rapport à une droite verticale passant par son milieu.`;
+    } else {
+      correct=pick(noAxis);
+      wrongPool=shuffle([...verticalAxis,...horizontalOnly]).slice(0,3);
+      question=`Laquelle de ces lettres capitales n'a aucun axe de symétrie ?`;
+      explication=`La lettre <strong>${correct}</strong> ne peut être superposée à elle-même par aucune symétrie axiale : elle n'a aucun axe de symétrie.`;
+    }
+    const choices=shuffle([correct,...wrongPool]);
+    const correctIdx=choices.indexOf(correct);
+    return {type:'qcm', text:question, choices, correct:correctIdx, explication};
+  }},
+
+  { theme:"Symétrie axiale", generate:()=>{
+    const d=pick([2,3,4,5,6,7]);
+    const correctLabel=`À ${d} cm de l'axe, de l'autre côté par rapport à M`;
+    const choices=shuffle([correctLabel, `À ${d} cm de l'axe, du même côté que M`, `À ${2*d} cm de l'axe`, `À ${Math.round(d/2)} cm de l'axe`]);
+    const correct=choices.indexOf(correctLabel);
+    return {type:'qcm', text:`Un point M est situé à ${d} cm d'un axe de symétrie. Où se trouve son symétrique M' ?`, choices, correct,
+      explication:`Par symétrie axiale, un point et son symétrique sont toujours à la <strong>même distance</strong> de l'axe, mais de <strong>part et d'autre</strong> de celui-ci : M' est donc <strong>à ${d} cm de l'axe, de l'autre côté</strong>.`};
+  }},
+
+  // ── PROPORTIONNALITÉ ────────────────────────────────
+  { theme:"Proportionnalité", generate:()=>{
+    const recette=[
+      {item:'farine',unit:'g',val:pick([100,150,200,250,300])},
+      {item:'sucre',unit:'g',val:pick([80,100,120,150,180])},
+      {item:'lait',unit:'mL',val:pick([150,200,250,300])},
+      {item:'beurre',unit:'g',val:pick([50,75,100])},
+      {item:'chocolat',unit:'g',val:pick([100,150,200])},
+      {item:'riz',unit:'g',val:pick([120,150,180,200])},
+    ];
+    const r=pick(recette); const facteur=pick([2,3,4]);
+    const personnesBase=pick([2,3,4]);
+    const mot={2:'doublant',3:'triplant',4:'quadruplant'}[facteur];
+    return {type:'input', text:`Une recette pour ${personnesBase} personnes utilise ${r.val} ${r.unit} de ${r.item}. Quelle quantité de ${r.item} faut-il pour ${facteur*personnesBase} personnes ?`,
+      answer:`${r.val*facteur}`, explication:`Pour ${facteur*personnesBase} personnes, on multiplie chaque quantité par ${facteur} (en ${mot} les quantités) : ${r.val} × ${facteur} = <strong>${r.val*facteur} ${r.unit}</strong>.`};
+  }},
+
+  { theme:"Proportionnalité", generate:()=>{
+    const situations=[
+      {text:`L'âge d'une personne et sa taille sont-ils proportionnels ?`, ans:false, exp:`Non : une personne ne grandit pas indéfiniment proportionnellement à son âge (par exemple, on ne double pas de taille en doublant d'âge à l'âge adulte).`},
+      {text:`Le nombre de baguettes achetées et leur prix total sont-ils proportionnels ?`, ans:true, exp:`Oui : chaque baguette a le même prix, donc le prix total est proportionnel au nombre de baguettes.`},
+      {text:`Le périmètre d'un carré et la longueur de son côté sont-ils proportionnels ?`, ans:true, exp:`Oui : périmètre = 4 × côté, donc le périmètre est proportionnel à la longueur du côté.`},
+      {text:`L'aire d'un carré et la longueur de son côté sont-elles proportionnelles ?`, ans:false, exp:`Non : l'aire est le carré du côté (côté × côté), pas un multiple constant du côté.`},
+      {text:`Le temps de cuisson d'un gâteau et le nombre de gâteaux identiques enfournés en même temps sont-ils proportionnels ?`, ans:false, exp:`Non : on peut cuire plusieurs gâteaux identiques en même temps sans changer le temps de cuisson.`},
+      {text:`Le nombre de litres d'essence achetés et leur prix total sont-ils proportionnels ?`, ans:true, exp:`Oui : chaque litre a le même prix, donc le prix total est proportionnel à la quantité achetée.`},
+      {text:`Le poids d'un enfant et son année de naissance sont-ils proportionnels ?`, ans:false, exp:`Non : ces deux grandeurs n'ont aucun lien de proportionnalité, ce sont deux informations indépendantes.`},
+      {text:`Le nombre de tickets de cinéma achetés au même tarif et leur prix total sont-ils proportionnels ?`, ans:true, exp:`Oui : chaque ticket coûte le même prix, donc le prix total est proportionnel au nombre de tickets.`},
+      {text:`La durée d'un trajet à vitesse constante et la distance parcourue sont-elles proportionnelles ?`, ans:true, exp:`Oui : à vitesse constante, la distance parcourue est proportionnelle à la durée du trajet.`},
+      {text:`La taille d'une personne et la pointure de ses chaussures sont-elles proportionnelles ?`, ans:false, exp:`Non : deux personnes de tailles différentes peuvent avoir la même pointure, il n'y a pas de proportionnalité stricte.`},
+    ];
+    const v=pick(situations);
+    const choices=shuffle(['Oui','Non']);
+    const correct=choices.indexOf(v.ans?'Oui':'Non');
+    return {type:'qcm', text:v.text, choices, correct, explication:v.exp};
+  }},
+
+  { theme:"Proportionnalité", generate:()=>{
+    const objets=['stylos','crayons','cahiers','gommes','ballons','livres','yaourts'];
+    const objet=pick(objets);
+    const qteBase=pick([2,3,4,5]);
+    const prixBase=qteBase*pick([2,3,4,5]);
+    const facteur=pick([2,3,4]);
+    const qteCible=qteBase*facteur;
+    return {type:'input', text:`${qteBase} ${objet} coûtent ${prixBase} €. Combien coûtent ${qteCible} ${objet} (au même prix unitaire) ?`,
+      answer:`${prixBase*facteur}`, explication:`${qteCible} ${objet}, c'est ${facteur} fois plus que ${qteBase} ${objet} : on multiplie donc le prix par ${facteur}. ${prixBase} × ${facteur} = <strong>${prixBase*facteur} €</strong>.`};
+  }},
+
+  { theme:"Proportionnalité", generate:()=>{
+    const objets=[
+      {plural:'stylos', singulier:'stylo', fem:false},
+      {plural:'crayons', singulier:'crayon', fem:false},
+      {plural:'cahiers', singulier:'cahier', fem:false},
+      {plural:'gommes', singulier:'gomme', fem:true},
+      {plural:'yaourts', singulier:'yaourt', fem:false},
+      {plural:'baguettes', singulier:'baguette', fem:true},
+    ];
+    const objet=pick(objets);
+    const unitPrice=pick([1,2,3,4,5]);
+    const qte=pick([2,3,4,5,6]);
+    const total=unitPrice*qte;
+    return {type:'input', text:`${qte} ${objet.plural} identiques coûtent ${total} € au total. Quel est le prix d'${objet.fem?'une seule':'un seul'} ${objet.singulier} ?`,
+      answer:`${unitPrice}`, explication:`Pour trouver le prix d'${objet.fem?'une seule':'un seul'} ${objet.singulier}, on partage le prix total en ${qte} parts égales : ${total} ÷ ${qte} = <strong>${unitPrice} €</strong>.`};
+  }},
+
+  // ── STATISTIQUES ────────────────────────────────────
+  { theme:"Statistiques", generate:()=>{
+    const contexts=[
+      {labels:['Lundi','Mardi','Mercredi','Jeudi','Vendredi'], sujet:"élèves présents à l'infirmerie", unit:'élèves', word:'jour', wordPlural:'jours', fem:false},
+      {labels:['Janvier','Février','Mars','Avril','Mai'], sujet:'livres empruntés au CDI', unit:'livres', word:'mois', wordPlural:'mois', fem:false},
+      {labels:['Football','Basket','Natation','Tennis','Judo'], sujet:'élèves inscrits par sport', unit:'élèves', word:'sport', wordPlural:'sports', fem:false},
+      {labels:['6eA','6eB','6eC','6eD'], sujet:'élèves par classe de 6e', unit:'élèves', word:'classe', wordPlural:'classes', fem:true},
+      {labels:['Pomme','Poire','Banane','Orange'], sujet:'fruits vendus à la cantine', unit:'fruits', word:'fruit', wordPlural:'fruits', fem:false},
+    ];
+    const ctx=pick(contexts);
+    const pool=shuffle([1,2,3,4,5,6,7,8,9]);
+    const cats=shuffle(ctx.labels).slice(0,4).map((l,i)=>({label:l,val:pool[i]}));
+    const target=pick(cats);
+    return {type:'input', text:`Ce diagramme représente le nombre ${de_(ctx.sujet)}. Quelle est la valeur associée à ${target.label} ?`, answer:`${target.val}`,
+      explication:`La barre correspondant à ${target.label} atteint la hauteur <strong>${target.val}</strong>.`,
+      figure:svgBarChart(cats,10,2)};
+  }},
+
+  { theme:"Statistiques", generate:()=>{
+    const contexts=[
+      {labels:['Lundi','Mardi','Mercredi','Jeudi','Vendredi'], sujet:"élèves présents à l'infirmerie", unit:'élèves', word:'jour', wordPlural:'jours', fem:false},
+      {labels:['Janvier','Février','Mars','Avril','Mai'], sujet:'livres empruntés au CDI', unit:'livres', word:'mois', wordPlural:'mois', fem:false},
+      {labels:['Football','Basket','Natation','Tennis','Judo'], sujet:'élèves inscrits par sport', unit:'élèves', word:'sport', wordPlural:'sports', fem:false},
+      {labels:['6eA','6eB','6eC','6eD'], sujet:'élèves par classe de 6e', unit:'élèves', word:'classe', wordPlural:'classes', fem:true},
+      {labels:['Pomme','Poire','Banane','Orange'], sujet:'fruits vendus à la cantine', unit:'fruits', word:'fruit', wordPlural:'fruits', fem:false},
+    ];
+    const ctx=pick(contexts);
+    const pool=shuffle([1,2,3,4,5,6,7,8,9]);
+    const cats=shuffle(ctx.labels).slice(0,4).map((l,i)=>({label:l,val:pool[i]}));
+    const isMax=Math.random()<0.5;
+    const target = isMax ? cats.reduce((a,b)=>b.val>a.val?b:a) : cats.reduce((a,b)=>b.val<a.val?b:a);
+    const question = `${ctx.fem?'Quelle':'Quel'} ${ctx.word} a eu ${isMax?'le plus':'le moins'} ${de_(ctx.unit)} (${ctx.sujet}) ?`;
+    const choices=cats.map(c=>c.label);
+    const correct=choices.indexOf(target.label);
+    return {type:'qcm', text:question, choices, correct,
+      explication:`${isMax?'La plus grande barre est celle de':'La plus petite barre est celle de'} ${target.label}, avec ${target.val} ${target.val===1?ctx.unit.replace(/s$/,''):ctx.unit}.`,
+      figure:svgBarChart(cats,10,2)};
+  }},
+
+  { theme:"Statistiques", generate:()=>{
+    const contexts=[
+      {labels:['Lundi','Mardi','Mercredi','Jeudi','Vendredi'], sujet:"élèves présents à l'infirmerie", unit:'élèves', word:'jour', wordPlural:'jours', fem:false},
+      {labels:['Janvier','Février','Mars','Avril','Mai'], sujet:'livres empruntés au CDI', unit:'livres', word:'mois', wordPlural:'mois', fem:false},
+      {labels:['Football','Basket','Natation','Tennis','Judo'], sujet:'élèves inscrits par sport', unit:'élèves', word:'sport', wordPlural:'sports', fem:false},
+      {labels:['6eA','6eB','6eC','6eD'], sujet:'élèves par classe de 6e', unit:'élèves', word:'classe', wordPlural:'classes', fem:true},
+      {labels:['Pomme','Poire','Banane','Orange'], sujet:'fruits vendus à la cantine', unit:'fruits', word:'fruit', wordPlural:'fruits', fem:false},
+    ];
+    const ctx=pick(contexts);
+    const pool=shuffle([1,2,3,4,5,6,7,8,9]);
+    const cats=shuffle(ctx.labels).slice(0,4).map((l,i)=>({label:l,val:pool[i]}));
+    const threshold=pick([2,3,4,5,6,7]);
+    const above=Math.random()<0.5;
+    const matching=cats.filter(c=> above ? c.val>threshold : c.val<threshold);
+    return {type:'input', text:`Combien de ${ctx.wordPlural} ont ${above?'strictement plus':'strictement moins'} de ${threshold} ${ctx.unit} (${ctx.sujet}) ?`,
+      answer:`${matching.length}`,
+      explication:`Les ${ctx.wordPlural} concernés sont : ${matching.length?matching.map(c=>c.label).join(', '):'aucun'}. Cela fait <strong>${matching.length}</strong>.`,
+      figure:svgBarChart(cats,10,2)};
+  }},
+
+  { theme:"Statistiques", generate:()=>{
+    const contexts=[
+      {labels:['Lundi','Mardi','Mercredi','Jeudi','Vendredi'], sujet:"élèves présents à l'infirmerie", unit:'élèves', word:'jour', wordPlural:'jours', fem:false},
+      {labels:['Janvier','Février','Mars','Avril','Mai'], sujet:'livres empruntés au CDI', unit:'livres', word:'mois', wordPlural:'mois', fem:false},
+      {labels:['Football','Basket','Natation','Tennis','Judo'], sujet:'élèves inscrits par sport', unit:'élèves', word:'sport', wordPlural:'sports', fem:false},
+      {labels:['6eA','6eB','6eC','6eD'], sujet:'élèves par classe de 6e', unit:'élèves', word:'classe', wordPlural:'classes', fem:true},
+      {labels:['Pomme','Poire','Banane','Orange'], sujet:'fruits vendus à la cantine', unit:'fruits', word:'fruit', wordPlural:'fruits', fem:false},
+    ];
+    const ctx=pick(contexts);
+    const pool=shuffle([1,2,3,4,5,6,7,8,9]);
+    const cats=shuffle(ctx.labels).slice(0,4).map((l,i)=>({label:l,val:pool[i]}));
+    const [c1,c2]=shuffle(cats).slice(0,2);
+    const bigger=c1.val>=c2.val?c1:c2, smaller=c1.val>=c2.val?c2:c1;
+    const diff=bigger.val-smaller.val;
+    return {type:'input', text:`Combien ${de_(ctx.unit)} de plus y a-t-il pour ${bigger.label} que pour ${smaller.label} ?`,
+      answer:`${diff}`, explication:`${bigger.label} (${bigger.val}) − ${smaller.label} (${smaller.val}) = <strong>${diff}</strong>.`,
+      figure:svgBarChart(cats,10,2)};
+  }},
+
+  { theme:"Statistiques", generate:()=>{
+    const contexts=[
+      {labels:['Lundi','Mardi','Mercredi','Jeudi','Vendredi'], sujet:"élèves présents à l'infirmerie", unit:'élèves', word:'jour', wordPlural:'jours', fem:false},
+      {labels:['Janvier','Février','Mars','Avril','Mai'], sujet:'livres empruntés au CDI', unit:'livres', word:'mois', wordPlural:'mois', fem:false},
+      {labels:['Football','Basket','Natation','Tennis','Judo'], sujet:'élèves inscrits par sport', unit:'élèves', word:'sport', wordPlural:'sports', fem:false},
+      {labels:['6eA','6eB','6eC','6eD'], sujet:'élèves par classe de 6e', unit:'élèves', word:'classe', wordPlural:'classes', fem:true},
+      {labels:['Pomme','Poire','Banane','Orange'], sujet:'fruits vendus à la cantine', unit:'fruits', word:'fruit', wordPlural:'fruits', fem:false},
+    ];
+    const ctx=pick(contexts);
+    const pool=shuffle([1,2,3,4,5,6,7,8,9]);
+    const cats=shuffle(ctx.labels).slice(0,4).map((l,i)=>({label:l,val:pool[i]}));
+    const total=cats.reduce((s,c)=>s+c.val,0);
+    return {type:'input', text:`Quel est le nombre total ${de_(ctx.unit)} représentés sur ce diagramme, toutes catégories confondues ?`,
+      answer:`${total}`, explication:`Total = ${cats.map(c=>c.val).join(' + ')} = <strong>${total}</strong>.`,
+      figure:svgBarChart(cats,10,2)};
+  }},
+
+  { theme:"Statistiques", generate:()=>{
+    const contextes=[
+      {rowLabels:['Filles','Garçons'], colLabels:['Sport A','Sport B']},
+      {rowLabels:['6eA','6eB'], colLabels:['Latin','Anglais renforcé']},
+      {rowLabels:['Internes','Externes'], colLabels:['Cantine','Repas maison']},
+    ];
+    const ctx=pick(contextes);
+    const rows=[{label:ctx.rowLabels[0], a:rnd(4,14), b:rnd(4,14)},{label:ctx.rowLabels[1], a:rnd(4,14), b:rnd(4,14)}];
+    const totalA=rows[0].a+rows[1].a, totalB=rows[0].b+rows[1].b;
+    const rowTotal0=rows[0].a+rows[0].b, rowTotal1=rows[1].a+rows[1].b;
+    const grandTotal=totalA+totalB;
+    const target=pick(['colA','colB','row0','row1']);
+    const table=`<table><tr><th></th><th>${ctx.colLabels[0]}</th><th>${ctx.colLabels[1]}</th><th>Total</th></tr>
+      <tr><td>${rows[0].label}</td><td>${rows[0].a}</td><td>${rows[0].b}</td><td>${target==='row0'?'?':rowTotal0}</td></tr>
+      <tr><td>${rows[1].label}</td><td>${rows[1].a}</td><td>${rows[1].b}</td><td>${target==='row1'?'?':rowTotal1}</td></tr>
+      <tr><td>Total</td><td>${target==='colA'?'?':totalA}</td><td>${target==='colB'?'?':totalB}</td><td>${grandTotal}</td></tr></table>`;
+    const answerMap={colA:totalA,colB:totalB,row0:rowTotal0,row1:rowTotal1};
+    const explMap={
+      colA:`${rows[0].a} + ${rows[1].a} = <strong>${totalA}</strong>`,
+      colB:`${rows[0].b} + ${rows[1].b} = <strong>${totalB}</strong>`,
+      row0:`${rows[0].a} + ${rows[0].b} = <strong>${rowTotal0}</strong>`,
+      row1:`${rows[1].a} + ${rows[1].b} = <strong>${rowTotal1}</strong>`,
+    };
+    return {type:'input', text:`Dans ce tableau d'effectifs, complétez la case avec « ? ».`, answer:`${answerMap[target]}`,
+      explication:`Un total s'obtient en additionnant les effectifs de sa ligne ou de sa colonne : ${explMap[target]}.`,
+      figure:table};
+  }},
+
+  { theme:"Statistiques", generate:()=>{
+    const contextes=[
+      {rowLabels:['Filles','Garçons'], colLabels:['Sport A','Sport B']},
+      {rowLabels:['6eA','6eB'], colLabels:['Latin','Anglais renforcé']},
+      {rowLabels:['Internes','Externes'], colLabels:['Cantine','Repas maison']},
+    ];
+    const ctx=pick(contextes);
+    const rows=[{label:ctx.rowLabels[0], a:rnd(4,14), b:rnd(4,14)},{label:ctx.rowLabels[1], a:rnd(4,14), b:rnd(4,14)}];
+    const totalA=rows[0].a+rows[1].a, totalB=rows[0].b+rows[1].b;
+    const rowTotal0=rows[0].a+rows[0].b, rowTotal1=rows[1].a+rows[1].b;
+    const targets=[{key:'0a',val:rows[0].a},{key:'0b',val:rows[0].b},{key:'1a',val:rows[1].a},{key:'1b',val:rows[1].b}];
+    const target=pick(targets);
+    const cellVal=(key,val)=> key===target.key?'?':val;
+    const table=`<table><tr><th></th><th>${ctx.colLabels[0]}</th><th>${ctx.colLabels[1]}</th><th>Total</th></tr>
+      <tr><td>${rows[0].label}</td><td>${cellVal('0a',rows[0].a)}</td><td>${cellVal('0b',rows[0].b)}</td><td>${rowTotal0}</td></tr>
+      <tr><td>${rows[1].label}</td><td>${cellVal('1a',rows[1].a)}</td><td>${cellVal('1b',rows[1].b)}</td><td>${rowTotal1}</td></tr>
+      <tr><td>Total</td><td>${totalA}</td><td>${totalB}</td><td>${totalA+totalB}</td></tr></table>`;
+    const rowIdx=target.key[0], col=target.key[1];
+    const rowLabel = rowIdx==='0'?rows[0].label:rows[1].label;
+    const rowTotalVal = rowIdx==='0'?rowTotal0:rowTotal1;
+    const otherVal = rowIdx==='0'? (col==='a'?rows[0].b:rows[0].a) : (col==='a'?rows[1].b:rows[1].a);
+    const colLabel = col==='a'?ctx.colLabels[0]:ctx.colLabels[1];
+    const otherColLabel = col==='a'?ctx.colLabels[1]:ctx.colLabels[0];
+    return {type:'input', text:`Dans ce tableau, retrouvez la valeur manquante (case avec « ? ») à partir du total de sa ligne.`,
+      answer:`${target.val}`,
+      explication:`Le total de la ligne « ${rowLabel} » est ${rowTotalVal}. On connaît déjà ${otherColLabel} = ${otherVal}, donc ${colLabel} = ${rowTotalVal} − ${otherVal} = <strong>${target.val}</strong>.`,
+      figure:table};
+  }},
+
+  { theme:"Statistiques", generate:()=>{
+    const contextes=[
+      {rowLabels:['Filles','Garçons'], colLabels:['Sport A','Sport B']},
+      {rowLabels:['6eA','6eB'], colLabels:['Latin','Anglais renforcé']},
+      {rowLabels:['Internes','Externes'], colLabels:['Cantine','Repas maison']},
+    ];
+    const ctx=pick(contextes);
+    let rows,t0,t1;
+    do {
+      rows=[{label:ctx.rowLabels[0], a:rnd(4,14), b:rnd(4,14)},{label:ctx.rowLabels[1], a:rnd(4,14), b:rnd(4,14)}];
+      t0=rows[0].a+rows[0].b; t1=rows[1].a+rows[1].b;
+    } while(t0===t1);
+    const table=`<table><tr><th></th><th>${ctx.colLabels[0]}</th><th>${ctx.colLabels[1]}</th><th>Total</th></tr>
+      <tr><td>${rows[0].label}</td><td>${rows[0].a}</td><td>${rows[0].b}</td><td>${t0}</td></tr>
+      <tr><td>${rows[1].label}</td><td>${rows[1].a}</td><td>${rows[1].b}</td><td>${t1}</td></tr></table>`;
+    const choices=[rows[0].label,rows[1].label];
+    const correct = t0>t1?0:1;
+    return {type:'qcm', text:`Quelle catégorie a le plus grand effectif total dans ce tableau ?`, choices, correct,
+      explication:`${rows[0].label} : ${rows[0].a} + ${rows[0].b} = ${t0}. ${rows[1].label} : ${rows[1].a} + ${rows[1].b} = ${t1}. La plus grande est <strong>${t0>t1?rows[0].label:rows[1].label}</strong>.`,
+      figure:table};
+  }},
+
+  { theme:"Statistiques", generate:()=>{
+    const contextes=[
+      {rowLabels:['Filles','Garçons'], colLabels:['Sport A','Sport B']},
+      {rowLabels:['6eA','6eB'], colLabels:['Latin','Anglais renforcé']},
+      {rowLabels:['Internes','Externes'], colLabels:['Cantine','Repas maison']},
+    ];
+    const ctx=pick(contextes);
+    const rows=[{label:ctx.rowLabels[0], a:rnd(4,14), b:rnd(4,14)},{label:ctx.rowLabels[1], a:rnd(4,14), b:rnd(4,14)}];
+    const col=pick(['a','b']);
+    const colLabel = col==='a'?ctx.colLabels[0]:ctx.colLabels[1];
+    const v0=rows[0][col], v1=rows[1][col];
+    const bigger = v0>=v1?rows[0]:rows[1], smaller = v0>=v1?rows[1]:rows[0];
+    const diff=bigger[col]-smaller[col];
+    const table=`<table><tr><th></th><th>${ctx.colLabels[0]}</th><th>${ctx.colLabels[1]}</th></tr>
+      <tr><td>${rows[0].label}</td><td>${rows[0].a}</td><td>${rows[0].b}</td></tr>
+      <tr><td>${rows[1].label}</td><td>${rows[1].a}</td><td>${rows[1].b}</td></tr></table>`;
+    return {type:'input', text:`D'après ce tableau, combien de « ${colLabel} » de plus y a-t-il chez les ${bigger.label} que chez les ${smaller.label} ?`,
+      answer:`${diff}`, explication:`${bigger.label} : ${bigger[col]}. ${smaller.label} : ${smaller[col]}. Différence = ${bigger[col]} − ${smaller[col]} = <strong>${diff}</strong>.`,
+      figure:table};
+  }},
+
+  { theme:"Statistiques", generate:()=>{
+    const contexts=[
+      {sujet:'un club de sport', cat1:'filles', cat2:'garçons'},
+      {sujet:'une classe de 6e', cat1:'demi-pensionnaires', cat2:'externes'},
+      {sujet:'un voyage scolaire', cat1:'élèves', cat2:'accompagnateurs'},
+      {sujet:'une bibliothèque', cat1:'romans', cat2:'bandes dessinées'},
+    ];
+    const ctx=pick(contexts);
+    const a=rnd(8,25), b=rnd(5,20);
+    const variants=[
+      {text:`Dans ${ctx.sujet}, on compte ${a} ${ctx.cat1} et ${b} ${ctx.cat2}. Quel est l'effectif total ?`, answer:a+b, explication:`Effectif total = ${a} + ${b} = <strong>${a+b}</strong>.`},
+      {text:`Dans ${ctx.sujet}, on compte ${a} ${ctx.cat1} et ${b} ${ctx.cat2}. Combien y a-t-il de ${a>=b?ctx.cat1:ctx.cat2} de plus que de ${a>=b?ctx.cat2:ctx.cat1} ?`, answer:Math.abs(a-b), explication:`Différence = ${Math.max(a,b)} − ${Math.min(a,b)} = <strong>${Math.abs(a-b)}</strong>.`},
+    ];
+    const v=pick(variants);
+    return {type:'input', text:v.text, answer:`${v.answer}`, explication:v.explication};
+  }},
+
+  // ── SOLIDES & VOLUMES ───────────────────────────────
+  { theme:"Solides & volumes", generate:()=>{
+    // Chaque colonne : hauteur réelle de la pile, et les étages effectivement dessinés (les cubes de la base
+    // ne sont pas dessinés, ce qui fait "flotter" visuellement le cube du dessus : il repose en réalité sur des cubes cachés en dessous).
+    const configs=[
+      { cols:[{height:3,visible:[0,1,2]},{height:3,visible:[2]}] },
+      { cols:[{height:2,visible:[0,1]},{height:2,visible:[1]}] },
+      { cols:[{height:3,visible:[0,1,2]},{height:1,visible:[0]},{height:3,visible:[2]}] },
+      { cols:[{height:2,visible:[0,1]},{height:2,visible:[0,1]},{height:2,visible:[1]}] },
+      { cols:[{height:3,visible:[0,1,2]},{height:3,visible:[0,1,2]},{height:3,visible:[2]}] },
+      { cols:[{height:1,visible:[0]},{height:2,visible:[0,1]},{height:3,visible:[2]}] },
+      { cols:[{height:3,visible:[0,1,2]},{height:2,visible:[1]}] },
+      { cols:[{height:4,visible:[0,1,2,3]},{height:4,visible:[3]}] },
+    ];
+    const v=pick(configs);
+    const total=v.cols.reduce((s,c)=>s+c.height,0);
+    const visibleCount=v.cols.reduce((s,c)=>s+c.visible.length,0);
+    const hidden=total-visibleCount;
+    const drawList=[];
+    v.cols.forEach((c,i)=>{ c.visible.forEach(layer=>drawList.push([i,layer])); });
+    const floatingCols=v.cols.map((c,i)=>({i,c})).filter(({c})=>!c.visible.includes(0));
+    const detail=floatingCols.map(({i,c})=>`la colonne ${i+1} montre un cube qui semble flotter à l'étage ${c.visible[0]+1} : il repose donc sur ${c.visible[0]} cube${c.visible[0]>1?'s':''} caché${c.visible[0]>1?'s':''} en dessous`).join(' ; ');
+    return {type:'input', text:`Un cube ne peut pas flotter : si un cube semble suspendu en l'air sur le dessin, c'est qu'il repose en réalité sur d'autres cubes cachés en dessous, invisibles ici. Combien de cubes cachés faut-il pour que cet empilement tienne debout ?`,
+      answer:`${hidden}`, explication:`${detail}. Au total, ${visibleCount} cubes sont visibles sur le dessin pour ${total} cubes réellement nécessaires : il y a donc ${total} − ${visibleCount} = <strong>${hidden}</strong> cube${hidden>1?'s':''} caché${hidden>1?'s':''}.`,
+      figure:svgCubesEmpilement(drawList)};
+  }},
+
+  { theme:"Solides & volumes", generate:()=>{
+    const n=pick([1,2,3,4,5,6,8,10,0.5,1.5,2.5,3.5,0.2,0.8]);
+    const toDm3=Math.random()<0.5;
+    return toDm3
+      ? {type:'input', text:`Combien de dm³ représentent ${nb(n)} L ?`, answer:nb(n), explication:`1 L = 1 dm³, donc ${nb(n)} L = <strong>${nb(n)} dm³</strong>.`}
+      : {type:'input', text:`Combien de litres représentent ${nb(n)} dm³ ?`, answer:nb(n), explication:`1 dm³ = 1 L, donc ${nb(n)} dm³ = <strong>${nb(n)} L</strong>.`};
+  }},
+
+  { theme:"Solides & volumes", generate:()=>{
+    const solides=[
+      {nom:'un cube', faces:'6', aretes:'12', sommets:'8'},
+      {nom:'un pavé droit', faces:'6', aretes:'12', sommets:'8'},
+    ];
+    const s=pick(solides);
+    const grandeur=pick([{q:'faces',n:s.faces},{q:'arêtes',n:s.aretes},{q:'sommets',n:s.sommets}]);
+    const pool=['4','6','8','10','12'];
+    const wrongPool=shuffle(pool.filter(x=>x!==grandeur.n)).slice(0,3);
+    const choices=shuffle([grandeur.n,...wrongPool]);
+    const correct=choices.indexOf(grandeur.n);
+    return {type:'qcm', text:`Combien ${s.nom} a-t-il de ${grandeur.q} ?`, choices, correct,
+      explication:`${s.nom.charAt(0).toUpperCase()+s.nom.slice(1)} a <strong>${grandeur.n} ${grandeur.q}</strong>.`};
+  }},
+
+  { theme:"Solides & volumes", generate:()=>{
+    const solides=[
+      {desc:'Un solide qui a 6 faces carrées identiques', nom:'Le cube'},
+      {desc:'Un solide qui a 6 faces rectangulaires (pas toutes carrées)', nom:'Le pavé droit'},
+      {desc:'Un solide qui a une base carrée et 4 faces triangulaires qui se rejoignent en un sommet', nom:'La pyramide à base carrée'},
+      {desc:'Un solide qui a deux faces circulaires identiques reliées par une surface courbe', nom:'Le cylindre'},
+      {desc:'Un solide parfaitement rond, comme un ballon', nom:'La sphère'},
+    ];
+    const v=pick(solides);
+    const wrongPool=shuffle(solides.filter(s=>s.nom!==v.nom).map(s=>s.nom)).slice(0,3);
+    const choices=shuffle([v.nom,...wrongPool]);
+    const correct=choices.indexOf(v.nom);
+    return {type:'qcm', text:`${v.desc}. De quel solide s'agit-il ?`, choices, correct,
+      explication:`${v.desc} : c'est <strong>${v.nom.toLowerCase()}</strong>.`};
+  }},
+
+  // ── PROGRAMMATION ───────────────────────────────────
+  { theme:"Programmation", generate:()=>{
+    const blocks=[
+      {b:{type:'move',val:50}, choices:['Avance de 50 pas','Tourne de 50°','Répète 50 fois','Attend 50 secondes'], c:0},
+      {b:{type:'turn',val:90}, choices:['Avance de 90 pas','Tourne à droite de 90°','Répète 90 fois','Recule de 90 pas'], c:1},
+      {b:{type:'move',val:100}, choices:['Avance de 100 pas','Tourne de 100°','Répète 100 fois','Recule de 100 pas'], c:0},
+      {b:{type:'turn',val:45}, choices:['Avance de 45 pas','Tourne à droite de 45°','Répète 45 fois','Attend 45 secondes'], c:1},
+      {b:{type:'move',val:20}, choices:['Avance de 20 pas','Tourne de 20°','Répète 20 fois','Recule de 20 pas'], c:0},
+      {b:{type:'move',val:75}, choices:['Avance de 75 pas','Tourne de 75°','Répète 75 fois','Attend 75 secondes'], c:0},
+      {b:{type:'turn',val:30}, choices:['Avance de 30 pas','Tourne à droite de 30°','Répète 30 fois','Recule de 30 pas'], c:1},
+      {b:{type:'turn',val:120}, choices:['Avance de 120 pas','Tourne à droite de 120°','Répète 120 fois','Recule de 120 pas'], c:1},
+      {b:{type:'move',val:150}, choices:['Avance de 150 pas','Tourne de 150°','Répète 150 fois','Recule de 150 pas'], c:0},
+      {b:{type:'turn',val:60}, choices:['Avance de 60 pas','Tourne à droite de 60°','Répète 60 fois','Attend 60 secondes'], c:1},
+      {b:{type:'wait',val:3}, choices:["Attend 3 secondes","Avance de 3 pas","Répète 3 fois","Tourne de 3°"], c:0},
+      {b:{type:'wait',val:5}, choices:["Attend 5 secondes","Recule de 5 pas","Répète 5 fois","Dit « 5 » pendant 5 secondes"], c:0},
+      {b:{type:'pen',val:'down'}, choices:["Baisse le stylo (commence à tracer)","Lève le stylo (arrête de tracer)","Avance en traçant 1 pas","Efface le dessin"], c:0},
+      {b:{type:'pen',val:'up'}, choices:["Lève le stylo (arrête de tracer)","Baisse le stylo (commence à tracer)","Recule sans tracer 1 pas","Change de couleur"], c:0},
+      {b:{type:'say',val:'Bonjour'}, choices:["Affiche une bulle « Bonjour »","Attend que l'utilisateur tape « Bonjour »","Répète le programme « Bonjour » fois","Tourne de l'angle « Bonjour »"], c:0},
+    ];
+    const v=pick(blocks);
+    const correctLabel=v.choices[v.c];
+    const choices=shuffle(v.choices);
+    const correct=choices.indexOf(correctLabel);
+    return {type:'qcm', text:`Que fait ce bloc de programmation quand il est exécuté ?`, choices, correct,
+      explication:`Ce bloc correspond à l'instruction : <strong>${correctLabel}</strong>.`,
+      figure:svgScratch([v.b])};
+  }},
+
+  { theme:"Programmation", generate:()=>{
+    const rep=pick([2,3,4,5]);
+    const pas=pick([10,15,20,25,30,40,50]);
+    const total=rep*pas;
+    return {type:'input', text:`Un programme répète ${rep} fois le bloc « avancer de ${pas} pas ». Quelle distance totale est parcourue ?`,
+      answer:`${total}`, explication:`On répète ${rep} fois un déplacement de ${pas} pas : distance totale = ${rep} × ${pas} = <strong>${total} pas</strong>.`,
+      figure:svgScratch([{type:'repeat_start',val:rep},{type:'move',val:pas},{type:'repeat_end'}])};
+  }},
+
+  { theme:"Programmation", generate:()=>{
+    const rep=pick([3,4,5,6]);
+    const pas=pick([10,20,30,40]);
+    const angle=pick([30,45,60,90]);
+    const totalAngle=rep*angle;
+    return {type:'input', text:`Un programme répète ${rep} fois la séquence : avancer de ${pas} pas, puis tourner de ${angle}°. Quel est l'angle total de rotation effectué à la fin du programme ?`,
+      answer:`${totalAngle}`, explication:`Chaque répétition fait tourner le robot de ${angle}°. En répétant ${rep} fois : ${rep} × ${angle}° = <strong>${totalAngle}°</strong>.`,
+      figure:svgScratch([{type:'repeat_start',val:rep},{type:'move',val:pas},{type:'turn',val:angle},{type:'repeat_end'}])};
+  }},
+
+  { theme:"Programmation", generate:()=>{
+    const polygones=[
+      {nom:'un carré', cotes:4, angle:90},
+      {nom:'un triangle équilatéral', cotes:3, angle:120},
+      {nom:'un hexagone régulier', cotes:6, angle:60},
+    ];
+    const p=pick(polygones);
+    const pas=pick([20,30,40,50]);
+    const pool=['60','72','90','120','45'];
+    const wrongPool=shuffle(pool.filter(x=>x!==String(p.angle))).slice(0,3);
+    const choices=shuffle([String(p.angle),...wrongPool]);
+    const correct=choices.indexOf(String(p.angle));
+    return {type:'qcm', text:`Pour dessiner ${p.nom} avec un programme qui répète ${p.cotes} fois « avancer de ${pas} pas, tourner de ... ° », quel angle de rotation faut-il utiliser ?`,
+      choices, correct,
+      explication:`Pour tracer ${p.nom} (${p.cotes} côtés), il faut tourner de <strong>${p.angle}°</strong> à chaque répétition pour revenir exactement au point de départ.`,
+      figure:svgScratch([{type:'repeat_start',val:p.cotes},{type:'move',val:pas},{type:'turn',val:p.angle},{type:'repeat_end'}])};
+  }},
+
+  { theme:"Programmation", generate:()=>{
+    const polygones=[
+      {nom:'un carré', cotes:4, angle:90},
+      {nom:'un triangle équilatéral', cotes:3, angle:120},
+      {nom:'un hexagone régulier', cotes:6, angle:60},
+    ];
+    const p=pick(polygones);
+    const pas=pick([20,30,40,50]);
+    const wrongPool=shuffle(polygones.filter(x=>x.nom!==p.nom).map(x=>x.nom)).slice(0,3);
+    const choices=shuffle([p.nom,...wrongPool]);
+    const correct=choices.indexOf(p.nom);
+    return {type:'qcm', text:`Un programme répète ${p.cotes} fois : « avancer de ${pas} pas, tourner de ${p.angle}° ». Quelle figure est tracée ?`,
+      choices, correct,
+      explication:`Répéter ${p.cotes} fois un même déplacement suivi d'une rotation de ${p.angle}° trace <strong>${p.nom}</strong> (${p.cotes} côtés égaux).`,
+      figure:svgScratch([{type:'repeat_start',val:p.cotes},{type:'move',val:pas},{type:'turn',val:p.angle},{type:'repeat_end'}])};
+  }},
+
+  { theme:"Programmation", generate:()=>{
+    const choices=shuffle(["Baisser le stylo","Lever le stylo","Tourner de 90°","Attendre 1 seconde"]);
+    const correct=choices.indexOf("Baisser le stylo");
+    return {type:'qcm', text:`Un robot doit se déplacer sans laisser de trace, puis tracer un trait au retour. Quel bloc faut-il utiliser juste avant de tracer ce trait ?`,
+      choices, correct,
+      explication:`Le stylo doit être <strong>baissé</strong> pour que le déplacement laisse une trace ; il doit être levé pour se déplacer sans dessiner.`};
+  }},
+
+  { theme:"Programmation", generate:()=>{
+    const say=pick([2,3,4]);
+    const wait=pick([1,2,3]);
+    const total=say+wait;
+    return {type:'input', text:`Un programme dit « Bonjour » pendant ${say} ${say>1?'secondes':'seconde'}, puis attend ${wait} ${wait>1?'secondes':'seconde'} avant le bloc suivant. Combien de temps s'écoule au total avant l'exécution du bloc suivant ?`,
+      answer:`${total}`, explication:`Les deux durées s'additionnent l'une après l'autre : ${say} + ${wait} = <strong>${total} ${total>1?'secondes':'seconde'}</strong>.`,
+      figure:svgScratch([{type:'say',val:'Bonjour'},{type:'wait',val:wait}])};
+  }},
+
+];
+// <<< SYNC:FIN
+
+// ═══════════════════════════════════════════════════════════
+// OUTILS COMMUNS
+// ═══════════════════════════════════════════════════════════
+const $ = id => document.getElementById(id);
+const fmtTime = s => String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+function showScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+
+let countdown = null;
+function startCountdown(seconds, alerte, boxId, dispId, onEnd, onTick){
+  stopCountdown();
+  const end = Date.now() + seconds*1000;
+  const tick = () => {
+    const left = Math.max(0, Math.ceil((end - Date.now())/1000));
+    $(dispId).textContent = fmtTime(left);
+    const box = $(boxId);
+    box.classList.toggle('danger', left <= alerte[1]);
+    box.classList.toggle('warning', left > alerte[1] && left <= alerte[0]);
+    if(onTick) onTick(left);
+    if(left <= 0){ stopCountdown(); onEnd(); }
+  };
+  tick();
+  countdown = setInterval(tick, 200);
+}
+function stopCountdown(){ clearInterval(countdown); countdown = null; }
+
+function goHome(){
+  stopCountdown();
+  if(T){ T.over = true; clearTimeout(T.errTimer); }
+  finished = true;
+  showScreen('screen-home');
+}
+
+// Compare la réponse tapée à la réponse attendue (virgule ou point, signe moins du clavier ou typographique)
+function isCorrect(q, raw){
+  const clean = s => String(s).toLowerCase().replace(/\s/g,'').replace(/,/g,'.').replace(/−/g,'-');
+  const num = v => /^-?\d+(\.\d+)?$/.test(v) ? parseFloat(v) : NaN;
+  const accepted = (q.acceptedAnswers || [q.answer]).map(clean);
+  const norm = clean(raw);
+  return accepted.includes(norm) || (!Number.isNaN(num(norm)) && num(norm) === num(clean(q.answer)));
+}
+
+// ═══════════════════════════════════════════════════════════
+// AUTOMATISMES : CHOIX DES THÈMES
+// ═══════════════════════════════════════════════════════════
+let allThemes = true;
+const selThemes = new Set();
+
+function openAutoSetup(){ initThemeGrid(); showScreen('screen-auto-setup'); }
+
+function initThemeGrid(){
+  const grid = $('theme-grid'); grid.innerHTML = '';
+  const mk = (label, on, disabled, fn) => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.className = 'theme-chip' + (on?' active':'') + (disabled?' disabled':'');
+    b.textContent = label; b.setAttribute('aria-pressed', String(on));
+    if(disabled) b.setAttribute('aria-disabled','true');
+    b.onclick = fn; grid.appendChild(b);
+  };
+  mk('Tous les thèmes', allThemes, false, () => { allThemes = true; selThemes.clear(); initThemeGrid(); });
+  const full = selThemes.size >= NB_QUESTIONS;
+  THEMES.forEach(t => { const on = !allThemes && selThemes.has(t); mk(t, on, full && !on, () => choisirTheme(t)); });
+  const n = selThemes.size;
+  $('theme-info').textContent = allThemes
+    ? `${NB_QUESTIONS} thèmes tirés au hasard, une question de chaque.`
+    : `${n} thème${n>1?'s':''} choisi${n>1?'s':''} sur ${NB_QUESTIONS} au maximum. ` + (n>1 ? `Les ${NB_QUESTIONS} questions sont réparties entre ces thèmes.` : `Les ${NB_QUESTIONS} questions viennent de ce thème.`) + (full ? ' Tu ne peux pas en choisir plus : décoches-en un pour en changer.' : '');
+}
+
+function choisirTheme(t){
+  if(allThemes){ allThemes = false; selThemes.clear(); selThemes.add(t); }
+  else if(selThemes.has(t)){ selThemes.delete(t); if(!selThemes.size) allThemes = true; }
+  else if(selThemes.size < NB_QUESTIONS){ selThemes.add(t); }
+  initThemeGrid();
+}
+
+// Répartition équilibrée des questions entre les thèmes choisis, sans doublon de questions
+function buildAutoSession(){
+  const themes = allThemes ? shuffle(THEMES).slice(0, NB_QUESTIONS) : [...selThemes];
+  const base = Math.floor(NB_QUESTIONS/themes.length), extra = NB_QUESTIONS % themes.length;
+  const quota = new Map(themes.map(t => [t, base]));
+  shuffle(themes).slice(0, extra).forEach(t => quota.set(t, quota.get(t)+1));
+  const out = [], seen = new Set();
+  const tirer = (gens, theme, need, unique) => {
+    let pool = [], tries = 0;
+    while(need > 0 && tries < 80){
+      if(!pool.length) pool = shuffle(gens);
+      const g = pool.pop(); const q = g.generate(); q.theme = theme; tries++;
+      if(unique){ const k = questionDedupeKey(g,q); if(seen.has(k)) continue; seen.add(k); }
+      out.push(q); need--;
+    }
+    return need;
+  };
+  themes.forEach(t => {
+    const gens = GENERATORS.filter(g => g.theme === t);
+    const reste = tirer(gens, t, quota.get(t), true);
+    if(reste > 0) tirer(gens, t, reste, false);
+  });
+  return shuffle(out);
+}
+
+// ═══════════════════════════════════════════════════════════
+// AUTOMATISMES : SÉRIE CHRONOMÉTRÉE
+// ═══════════════════════════════════════════════════════════
+let sessionQuestions = [], currentIdx = 0, answers = [], sessionAnswered = false;
+let finished = true, autoTimedOut = false, autoStart = 0;
+
+function startAuto(){
+  sessionQuestions = buildAutoSession(); currentIdx = 0;
+  answers = sessionQuestions.map(() => ({answered:false, correct:false, skipped:false, userAnswer:''}));
+  finished = false; autoTimedOut = false; autoStart = Date.now();
+  showScreen('screen-question'); renderQuestion();
+  startCountdown(DUREE_AUTO, ALERTE_AUTO, 'timer-box', 'timer-display', () => { autoTimedOut = true; finishSession(); });
+}
+
+function renderQuestion(){
+  const q = sessionQuestions[currentIdx], a = answers[currentIdx];
+  sessionAnswered = a.answered;
+  $('q-counter').textContent = `Question ${currentIdx+1} / ${sessionQuestions.length}`;
+  $('q-theme-badge').textContent = q.theme || '';
+  $('progress-fill').style.width = `${(currentIdx/sessionQuestions.length)*100}%`;
+  $('q-text').innerHTML = q.text;
+  $('q-hint').textContent = q.type === 'qcm' ? 'Une seule réponse correcte.' : '';
+  $('q-figure-container').innerHTML = q.figure ? `<div class="q-figure">${q.figure}</div>` : '';
+  const choicesCont = $('choices-container'), inputArea = $('input-area');
+  choicesCont.innerHTML = '';
+  if(q.type === 'qcm'){
+    inputArea.style.display = 'none'; choicesCont.style.display = 'flex';
+    q.choices.forEach((choice, i) => {
+      const btn = document.createElement('button'); btn.type = 'button';
+      btn.className = 'choice-btn' + (a.answered && a.userAnswer == i ? ' exam-selected' : ''); btn.disabled = a.answered;
+      btn.innerHTML = `<span class="choice-letter">${'ABCDEF'[i]}</span>${choice}`;
+      if(!a.answered) btn.onclick = () => selectChoice(i);
+      choicesCont.appendChild(btn);
+    });
+  } else {
+    choicesCont.style.display = 'none'; inputArea.style.display = 'flex';
+    const input = $('q-input');
+    input.value = a.answered ? a.userAnswer : ''; input.disabled = a.answered;
+    input.className = 'q-input' + (a.answered ? ' exam-filled' : '');
+    $('btn-validate').style.display = a.answered ? 'none' : 'inline-flex';
+    if(!a.answered){ setTimeout(() => input.focus(), 50); input.onkeydown = e => { if(e.key === 'Enter') validateInput(); }; }
+  }
+  updateNavButtons();
+}
+
+function selectChoice(i){
+  const q = sessionQuestions[currentIdx];
+  answers[currentIdx] = {answered:true, correct:i === q.correct, skipped:false, userAnswer:String(i)};
+  document.querySelectorAll('.choice-btn').forEach((b,k) => { b.disabled = true; if(k === i) b.classList.add('exam-selected'); });
+  avancer();
+}
+
+function validateInput(){
+  const q = sessionQuestions[currentIdx], input = $('q-input');
+  const raw = input.value.trim(); if(!raw || answers[currentIdx].answered) return;
+  answers[currentIdx] = {answered:true, correct:isCorrect(q, raw), skipped:false, userAnswer:raw};
+  input.disabled = true; input.classList.add('exam-filled'); $('btn-validate').style.display = 'none';
+  avancer();
+}
+
+// Passe à la question suivante après un court instant, sans montrer la correction
+function avancer(){
+  updateNavButtons();
+  const idx = currentIdx;
+  setTimeout(() => { if(currentIdx === idx && !finished) nextQuestion(); }, 500);
+}
+
+function updateNavButtons(){
+  const last = currentIdx === sessionQuestions.length-1, done = answers[currentIdx].answered;
+  $('btn-skip').style.display = (last && done) ? 'none' : 'inline-flex';
+  $('btn-finish').style.display = (last && done) ? 'inline-flex' : 'none';
+}
+
+function skipQuestion(){
+  if(!answers[currentIdx].answered) answers[currentIdx] = {answered:true, correct:false, skipped:true, userAnswer:''};
+  nextQuestion();
+}
+function nextQuestion(){
+  if(currentIdx < sessionQuestions.length-1){ currentIdx++; renderQuestion(); }
+  else finishSession();
+}
+
+// ═══════════════════════════════════════════════════════════
+// AUTOMATISMES : RÉSULTATS
+// ═══════════════════════════════════════════════════════════
+function finishSession(){
+  if(finished) return;
+  finished = true; stopCountdown();
+  answers.forEach((a,i) => { if(!a.answered) answers[i] = {answered:true, correct:false, skipped:true, userAnswer:''}; });
+  const total = sessionQuestions.length;
+  const correct = answers.filter(a => a.correct).length;
+  const wrong = answers.filter(a => !a.correct && !a.skipped).length;
+  const skipped = answers.filter(a => a.skipped).length;
+  const circ = 408.41;
+  $('ring-fill').style.strokeDashoffset = circ - (correct/total)*circ;
+  const pct = (correct/total)*100;
+  $('ring-fill').style.stroke = pct >= 66 ? 'var(--green)' : pct >= 33 ? 'var(--orange)' : 'var(--red)';
+  $('score-num').textContent = correct;
+  $('score-denom').textContent = `/ ${total}`;
+  const secondes = Math.min(DUREE_AUTO, Math.round((Date.now() - autoStart)/1000));
+  const duree = `${Math.floor(secondes/60)} min ${String(secondes%60).padStart(2,'0')} s`;
+  $('results-sub').textContent = `${correct} bonne${correct>1?'s':''} réponse${correct>1?'s':''} sur ${total}` + (autoTimedOut ? ' · temps écoulé' : ` · terminé en ${duree}`);
+  const badge = $('mention-badge');
+  const style = (bg, color) => `display:inline-block;padding:5px 16px;border-radius:30px;font-family:Syne,sans-serif;font-weight:700;font-size:.82rem;margin-bottom:28px;background:${bg};color:${color}`;
+  if(pct >= 80){ badge.textContent = '🏆 Excellent !'; badge.style.cssText = style('rgba(61,214,140,.15)','var(--green)'); }
+  else if(pct >= 60){ badge.textContent = '👍 Bien !'; badge.style.cssText = style('rgba(79,140,255,.15)','var(--accent)'); }
+  else if(pct >= 40){ badge.textContent = '📈 En progrès'; badge.style.cssText = style('rgba(255,179,71,.15)','var(--orange)'); }
+  else { badge.textContent = '📚 À retravailler'; badge.style.cssText = style('rgba(255,92,92,.12)','var(--red)'); }
+  $('stat-correct').textContent = correct; $('stat-wrong').textContent = wrong; $('stat-skip').textContent = skipped;
+  const list = $('correction-list'); list.innerHTML = '';
+  sessionQuestions.forEach((q,i) => {
+    const a = answers[i], div = document.createElement('div');
+    div.className = `correction-item ${a.skipped ? '' : a.correct ? 'ok' : 'ko'}`;
+    const statusText = a.skipped ? 'Passée' : a.correct ? 'Correct' : 'Incorrect';
+    const statusClass = a.skipped ? 'sk' : a.correct ? 'ok' : 'ko';
+    const correctAnswer = q.type === 'qcm' ? q.choices[q.correct] : q.answer;
+    const userDisplay = a.skipped ? '-' : q.type === 'qcm' && a.userAnswer !== '' ? q.choices[parseInt(a.userAnswer)] || a.userAnswer : a.userAnswer || '-';
+    div.innerHTML = `<div class="ci-top"><div class="ci-q">${q.text}</div><div class="ci-status ${statusClass}">${statusText}</div></div>
+      ${q.figure ? `<div class="q-figure">${q.figure}</div>` : ''}
+      <div class="ci-answer">Ta réponse : <strong>${userDisplay}</strong></div>
+      ${!a.correct ? `<div class="ci-answer">Bonne réponse : <strong>${correctAnswer}</strong></div>` : ''}
+      <div class="ci-expl">${q.explication || ''}</div>`;
+    list.appendChild(div);
+  });
+  showScreen('screen-results');
+}
+
+// ═══════════════════════════════════════════════════════════
+// TABLES DE MULTIPLICATION : CHOIX
+// ═══════════════════════════════════════════════════════════
+let allTables = true;
+const tablesSet = new Set();
+
+function openTablesSetup(){ initTablesGrid(); showScreen('screen-tables-setup'); }
+function tablesChoisies(){ return allTables ? Array.from({length:TABLES_MAX}, (_,i) => i+1) : [...tablesSet].sort((a,b) => a-b); }
+const listeNombres = a => a.length > 1 ? a.slice(0,-1).join(', ') + ' et ' + a[a.length-1] : String(a[0]);
+
+function initTablesGrid(){
+  const grid = $('tables-grid'); grid.innerHTML = '';
+  const mk = (label, on, fn, aria) => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.className = 'theme-chip' + (on?' active':''); b.textContent = label; b.setAttribute('aria-pressed', String(on));
+    if(aria) b.setAttribute('aria-label', aria);
+    b.onclick = fn; grid.appendChild(b);
+  };
+  mk('Toutes les tables', allTables, () => { allTables = true; tablesSet.clear(); initTablesGrid(); });
+  for(let n = 1; n <= TABLES_MAX; n++) mk(String(n), !allTables && tablesSet.has(n), () => choisirTable(n), 'Table de ' + n);
+  const nbFacts = buildTableFacts(tablesChoisies()).length;
+  $('tables-info').textContent = (allTables ? `Toutes les tables de 1 à ${TABLES_MAX}` : `Tables choisies : ${listeNombres(tablesChoisies())}`) + ` : ${nbFacts} multiplications différentes.`;
+}
+function choisirTable(n){
+  if(allTables){ allTables = false; tablesSet.clear(); tablesSet.add(n); }
+  else if(tablesSet.has(n)){ tablesSet.delete(n); if(!tablesSet.size) allTables = true; }
+  else tablesSet.add(n);
+  initTablesGrid();
+}
+
+// ═══════════════════════════════════════════════════════════
+// TABLES DE MULTIPLICATION : SÉRIE CHRONOMÉTRÉE
+// ═══════════════════════════════════════════════════════════
+let T = null;
+const factKey = f => Math.min(f.a,f.b) + 'x' + Math.max(f.a,f.b);
+
+// Multiplications des tables choisies, sans doublon (3 × 7 et 7 × 3 comptent pour une seule)
+function buildTableFacts(tables){
+  const seen = new Set(), facts = [];
+  tables.forEach(t => { for(let n = 1; n <= TABLES_MAX; n++){ const f = {a:t, b:n}, k = factKey(f); if(!seen.has(k)){ seen.add(k); facts.push(f); } } });
+  return facts;
+}
+
+// Prochaine multiplication : une erreur revient après RETOUR_ERREUR questions, sinon tirage dans le paquet.
+// Jamais deux fois de suite la même, et une multiplication reposée annule son rappel prévu.
+function nextFact(){
+  const due = T.retry.findIndex(r => r.at <= T.asked);
+  let f;
+  if(due >= 0) f = T.retry.splice(due,1)[0].fact;
+  else {
+    if(!T.deck.length) T.deck = shuffle(T.facts);
+    let i = T.deck.length - 1;
+    while(i >= 0 && T.facts.length > 1 && factKey(T.deck[i]) === T.prevKey) i--;
+    if(i < 0){ T.deck = shuffle(T.facts); i = T.deck.length - 1; while(factKey(T.deck[i]) === T.prevKey) i--; }
+    f = T.deck.splice(i,1)[0];
+  }
+  const k = factKey(f);
+  T.retry = T.retry.filter(r => factKey(r.fact) !== k);
+  T.prevKey = k;
+  return f;
+}
+
+function showFact(){
+  const f = nextFact(), swap = Math.random() < 0.5;
+  const x = swap ? f.b : f.a, y = swap ? f.a : f.b;
+  T.cur = {f, x, y, answer:f.a*f.b};
+  $('tbl-question').textContent = `${x} × ${y}`;
+  const inp = $('tbl-input');
+  inp.value = ''; inp.readOnly = false; inp.className = 'tbl-input'; $('tbl-msg').textContent = '';
+  inp.focus();
+}
+
+function startTables(){ launchTables(tablesChoisies(), false); }
+function refaireErreurs(){
+  if(!T || !T.errors.size) return;
+  launchTables(T.tables, true, [...T.errors.values()].map(e => e.f));
+}
+
+function launchTables(tables, isRetry, facts){
+  stopCountdown();
+  T = {tables, facts:facts || buildTableFacts(tables), deck:[], retry:[], asked:0, score:0, wrong:0, errors:new Map(), cur:null, locked:false, over:false, isRetry, prevKey:null, errTimer:null};
+  $('tbl-score').textContent = '✓ 0'; $('tbl-progress').style.width = '0%';
+  showScreen('screen-tables-play');
+  showFact();
+  startCountdown(DUREE_TABLES, ALERTE_TABLES, 'tbl-timer', 'tbl-timer-display', endTables,
+    left => { $('tbl-progress').style.width = `${(1 - left/DUREE_TABLES)*100}%`; });
+}
+
+function submitTable(raw){
+  if(!T || T.locked || T.over || !/^\d+$/.test(raw)) return;
+  const v = parseInt(raw,10), c = T.cur;
+  T.asked++;
+  if(v === c.answer){
+    T.score++; $('tbl-score').textContent = `✓ ${T.score}`;
+    const card = $('tbl-card'); card.classList.add('ok'); setTimeout(() => card.classList.remove('ok'), 220);
+    showFact();
+    return;
+  }
+  T.wrong++;
+  const k = factKey(c.f), e = T.errors.get(k) || {f:c.f, n:0};
+  e.n++; T.errors.set(k, e);
+  if(!T.retry.some(r => factKey(r.fact) === k)) T.retry.push({fact:c.f, at:T.asked + RETOUR_ERREUR});
+  T.locked = true;
+  const inp = $('tbl-input'); inp.readOnly = true; inp.classList.add('ko');
+  $('tbl-msg').textContent = `✗ ${c.x} × ${c.y} = ${c.answer}`;
+  T.errTimer = setTimeout(() => { if(T && !T.over){ T.locked = false; showFact(); } }, PAUSE_ERREUR);
+}
+
+$('tbl-input').addEventListener('input', e => {
+  const d = e.target.value.replace(/\D/g,'');
+  e.target.value = d;
+  if(T && !T.locked && !T.over && T.cur && d.length >= String(T.cur.answer).length) submitTable(d);
+});
+$('tbl-input').addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); submitTable(e.target.value); } });
+
+// ═══════════════════════════════════════════════════════════
+// TABLES DE MULTIPLICATION : RÉSULTATS
+// ═══════════════════════════════════════════════════════════
+function lireRecords(){ try{ return JSON.parse(localStorage.getItem('auto6-tables-records')) || {}; }catch(e){ return {}; } }
+function ecrireRecords(r){ try{ localStorage.setItem('auto6-tables-records', JSON.stringify(r)); }catch(e){} }
+
+function endTables(){
+  if(!T || T.over) return;
+  T.over = true; stopCountdown(); clearTimeout(T.errTimer);
+  const total = T.asked, ok = T.score, ko = T.wrong, pct = total ? Math.round(100*ok/total) : 0;
+  $('tbl-res-score').textContent = ok;
+  $('tbl-res-title').textContent = `bonne${ok>1?'s':''} réponse${ok>1?'s':''} en ${DUREE_TABLES} secondes`;
+  $('tbl-res-sub').textContent = T.isRetry ? 'Série de rattrapage sur tes erreurs' : (allTables ? 'Toutes les tables' : `Table${tablesChoisies().length>1?'s':''} de ${listeNombres(tablesChoisies())}`);
+  $('tbl-stat-ok').textContent = ok; $('tbl-stat-ko').textContent = ko; $('tbl-stat-pct').textContent = `${pct} %`;
+
+  const badge = $('tbl-record');
+  badge.style.display = 'none';
+  if(!T.isRetry){
+    const key = allTables ? 'toutes' : tablesChoisies().join('-');
+    const records = lireRecords(), best = records[key] || 0;
+    let msg, bg = 'rgba(79,140,255,.15)', color = 'var(--accent)';
+    if(ok > best){ records[key] = ok; ecrireRecords(records); msg = best ? `🏆 Nouveau record ! (avant : ${best})` : `🏆 Premier record enregistré : ${ok}`; bg = 'rgba(61,214,140,.15)'; color = 'var(--green)'; }
+    else msg = `Ton record : ${best}`;
+    badge.textContent = msg;
+    badge.style.cssText = `display:inline-block;padding:5px 16px;border-radius:30px;font-family:Syne,sans-serif;font-weight:700;font-size:.82rem;margin-bottom:28px;background:${bg};color:${color}`;
+  }
+
+  const list = $('tbl-err-list'); list.innerHTML = '';
+  const errs = [...T.errors.values()];
+  $('tbl-err-title').textContent = errs.length ? 'À retravailler' : '';
+  if(!errs.length){
+    const p = document.createElement('div'); p.className = 'err-none';
+    p.textContent = total ? 'Aucune erreur, bravo !' : 'Tu n\'as pas eu le temps de répondre.';
+    list.appendChild(p);
+  }
+  errs.forEach(e => {
+    const d = document.createElement('div'); d.className = 'err-item';
+    d.innerHTML = `<strong>${e.f.a} × ${e.f.b} = ${e.f.a*e.f.b}</strong>` + (e.n > 1 ? `<span>ratée ${e.n} fois</span>` : '');
+    list.appendChild(d);
+  });
+  $('tbl-retry-btn').style.display = errs.length ? 'inline-flex' : 'none';
+  showScreen('screen-tables-results');
+}
+
+// ═══════════════════════════════════════════════════════════
+// PLEIN ÉCRAN ET APPARENCE
+// ═══════════════════════════════════════════════════════════
+function toggleFullscreen(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen().catch(() => {});
+    $('fs-label').textContent = 'Quitter le plein écran';
+    document.body.classList.add('presenting');
+  } else {
+    document.exitFullscreen().catch(() => {});
+    $('fs-label').textContent = 'Plein écran';
+    document.body.classList.remove('presenting');
+  }
+}
+document.addEventListener('fullscreenchange', () => {
+  if(!document.fullscreenElement){
+    $('fs-label').textContent = 'Plein écran';
+    document.body.classList.remove('presenting');
+  }
+});
+
+function toggleTheme(){
+  const isLight = document.body.classList.toggle('light');
+  $('theme-icon').textContent = isLight ? '🌙' : '☀️';
+  $('theme-label').textContent = isLight ? 'Fond sombre' : 'Fond clair';
+  try{ localStorage.setItem('auto6-theme', isLight ? 'light' : 'dark'); }catch(e){}
+}
+(function(){
+  let saved = null;
+  try{ saved = localStorage.getItem('auto6-theme'); }catch(e){}
+  if(saved === 'light'){
+    document.body.classList.add('light');
+    $('theme-icon').textContent = '🌙';
+    $('theme-label').textContent = 'Fond sombre';
+  }
+})();
+
+initThemeGrid();
+initTablesGrid();
+</script>
+</body>
+</html>
