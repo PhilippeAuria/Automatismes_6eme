@@ -253,12 +253,12 @@ body.presenting .err-item{font-size:1.5rem;padding:14px 22px;}
     <button type="button" class="mode-card" onclick="openAutoSetup()">
       <div class="mode-icon">🧮</div>
       <div class="mode-title">Automatismes</div>
-      <div class="mode-desc">6 questions en 5 minutes. Tu choisis tes thèmes, ou tous. La correction est donnée à la fin.</div>
+      <div class="mode-desc">6 questions en 5 minutes. Tu choisis tes thèmes, ou tous les thèmes. La correction est donnée à la fin du temps.</div>
     </button>
     <button type="button" class="mode-card exam-mode" onclick="openTablesSetup()">
       <div class="mode-icon">✖️</div>
       <div class="mode-title">Tables de multiplication</div>
-      <div class="mode-desc">60 secondes pour répondre à un maximum de multiplications. Tu choisis tes tables, ou toutes.</div>
+      <div class="mode-desc">60 secondes pour répondre à un maximum de multiplications. Tu choisis tes tables, ou toutes les tables.</div>
     </button>
   </div>
   <div style="margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-size:.75rem;color:var(--muted);text-align:center;line-height:1.8;">
@@ -342,7 +342,7 @@ body.presenting .err-item{font-size:1.5rem;padding:14px 22px;}
 <!-- TABLES : CHOIX -->
 <div class="screen" id="screen-tables-setup">
   <div class="setup-title">Tables de multiplication</div>
-  <div class="setup-intro">60 secondes pour répondre à un maximum de multiplications. Si tu te trompes, la bonne réponse s'affiche, et la multiplication revient plus tard.</div>
+  <div class="setup-intro">60 secondes pour répondre à un maximum de multiplications. Si tu te trompes, la bonne réponse s'affiche, et la multiplication revient plus tard pour une deuxième chance !</div>
   <div class="section-label">Tes tables</div>
   <div class="theme-grid" id="tables-grid"></div>
   <div class="theme-info" id="tables-info" aria-live="polite"></div>
@@ -406,7 +406,7 @@ const DUREE_TABLES = 60;         // durée de la série de tables, en secondes
 const ALERTE_AUTO = [90, 30];    // secondes restantes : chrono orange, puis rouge
 const ALERTE_TABLES = [20, 10];
 const TABLES_MAX = 12;           // tables proposées : de 1 à TABLES_MAX
-const PAUSE_ERREUR = 1100;       // millisecondes d'affichage de la bonne réponse après une erreur
+const PAUSE_ERREUR = 3000;       // millisecondes d'affichage de la bonne réponse après une erreur
 const RETOUR_ERREUR = 3;         // une multiplication ratée est redemandée après autant de questions
 
 // >>> SYNC:DEBUT (bloc généré par _outils/sync_6e.js depuis la console profs : ne pas modifier ici, relancer le script)
